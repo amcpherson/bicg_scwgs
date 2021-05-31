@@ -26,47 +26,49 @@ library(ggpubr)
 Sys.setenv("DISPLAY"=":0.0")
 ```
 
-## Read copy number data    
+## Introduction
+
+In this tutorial we will analyze the OV2295 cell line DLP data from the paper "Clonal Decomposition and DNA Replication States Defined by Scaled Single-Cell Genome Sequencing", Laks et al. (2019) https://doi.org/10.1016/j.cell.2019.10.026.  The OV2295 cell lines were generated from a primary, metastasis and relapse specimens obtained from a patient with high grade serous ovarian cancer (see Létourneau et al. (2012), https://doi.org/10.1186/1471-2407-12-379).  The cell lines have a high degree of genomic instability, and significant genomic heterogeneity including with respect to large chromosomal changes.  The data from the Laks et al. paper is deposited in zenodo (https://doi.org/10.5281/zenodo.3445364).
+
+## Read and QC the copy number data
 
 This data is available from zenodo and can be downloaded with:
   `wget "https://zenodo.org/record/3445364/files/ov2295_cell_cn.csv.gz"`
   `wget "https://zenodo.org/record/3445364/files/ov2295_cell_metrics.csv.gz"`
+  
+The data was analyzed using the DLP single_cell_pipeline: https://github.com/shahcompbio/single_cell_pipeline.  
+
+We will first read the metrics data, assess the quality of the cells and filter where necessary.  The metrics file provided by the many columns but we will focus on quality and total_reads for filtering.  Quality is calculated using a classifier trained on manually curated cell quality calls and uses many of the other metrics as features.
 
 ```{r message=FALSE}
-#metrics = read_csv('/juno/work/shah/tantalus/SC-3441/results/annotation/A90554A_metrics.csv.gz')
-#metrics = read_csv('/juno/work/shah/tantalus/SC-3442/results/annotation/A90554B_metrics.csv.gz')
-#metrics = vroom('/juno/work/shah/tantalus/SC-2640/results/annotation/A96213A_metrics.csv.gz')
-#metrics = vroom("/juno/work/shah/isabl_data_lake/analyses/88/15/8815/results/A96213A_metrics.csv.gz")
 metrics = vroom("ov2295_cell_metrics.csv.gz")
 metrics %>% head()
 ```
+Plot a scatterplot of quality by total reads with marginals on the axes.  The cloud of cells with significant read count and quality less than 0.75 are cells for which we cannot effectively predict copy number.  These cells could either be cycling, or for which the genomic DNA degraded significantly prior to sequencing, or for which tagmentation failed.
 
-ggplot cheat sheet: https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf
+The plots in this notebook will be using ggplot extensively.  I recommend the r4ds tutorials (https://r4ds.had.co.nz/data-visualisation.html) and the ggplot cheat sheet (https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf) for further reference.
 
 ```{r}
 p <- metrics %>%
-  mutate(is_s_phase = factor(1)) %>%
-  ggplot(mapping = aes(x=quality, y=total_reads, color=is_s_phase)) + 
+  ggplot(mapping = aes(x=quality, y=total_reads)) + 
   geom_point() +
   theme(legend.position = "left")
-ggMarginal(p, type="histogram", groupColour=TRUE, groupFill=TRUE)
+ggMarginal(p, type="histogram")
 ```
-Filter based on a quality threshold of 0.85.
+Filter reads based on a quality threshold of 0.85 and a total read count threshold of 500k reads.  Also filter control cells based on the experimental_condition and sample_id columns.
 
 ```{r}
 metrics = metrics %>% filter(
   quality >= 0.85,
+  total_reads > 500000,
   !(experimental_condition %in% c("GM", "gDNA")),
   sample_id %in% c("SA1090", "SA921", "SA922"))
 ```
 
-Read in the copy number data.
+Read in the copy number data.  Using vroom::vroom will significantly speed up data loading and using factors for chr and cell_id and ignoring irrelevant columns will reduce the memory footprint.
 
 ```{r}
 cn = vroom(
-#  '/juno/work/shah/tantalus/SC-3441/results/hmmcopy/A90554A_reads.csv.gz',
-#  '/juno/work/shah/tantalus/SC-3442/results/hmmcopy/A90554B_reads.csv.gz',
-#  '/juno/work/shah/tantalus/SC-2640/results/hmmcopy/A96213A_reads.csv.gz',
   'ov2295_cell_cn.csv.gz',
   col_types = cols(
     chr = col_factor(NULL),
@@ -84,16 +86,16 @@ cn = vroom(
 )
 ```
 
-Subset by filtered cell ids in the metrics table.
+Subset copy number data by the filtered cell ids in the metrics table.
 
 ```{r}
 cn = cn %>% inner_join(metrics[, c("cell_id", "sample_id")], by = "cell_id")
 cn %>% head()
 ```
 
-## Plot a single cell
+## Copy number exploration
 
-Cell plotting function.
+We will plot cells using a scatter plot of normalized binned read count data.  The data has been processed through HMMCopy analysis as part of the DLP single cell pipeline.  The state column contains the prediction of integer copy number state for each cell.  The copy column is raw read count normalized for ploidy, gc, and mappability.  We will plot copy on the y axis and color by state, and wrap the plotting code in a function for use below.
 
 ```{r}
 plot_profile <- function(cn) {
@@ -119,16 +121,18 @@ plot_cell <- function(cn, plot_cell_id) {
 }
 ```
 
-Diploid cell:
+The first cell we will plot is a near diploid cell with some amplified regions and many LOH regions including chromosome 17.  The chromosome 17 LOH overlaps with a deliterious TP53 mutation, as is typical of high grade serous ovarian cancers.
 
 ```{r}
 plot_cell(cn, "SA1090-A96213A-R30-C61")
 ```
-Tetraploid cell:
+A second cell from the same cell line appears to be baseline tetraploid.  Many of the amplified or deleted regions overlap with those of the diploid baseline cell.  Copy 3 regions on chromosome 2 and 15 support the tetraploid solution.
 
 ```{r}
 plot_cell(cn, "SA1090-A96213A-R28-C68")
 ```
+
+It will be useful to plot all cells together in a heatmap for a high level look at the heterogeneity.  Here we rely on the very useful [ComplexHeatmap package](https://jokergoo.github.io/ComplexHeatmap-reference/book/).  The plot takes a GenomicRanges object with columns as cells and rows as regions.  A nice tutorial on GenomicRanges can be found [here](https://bioconductor.github.io/BiocWorkshops/solving-common-bioinformatic-challenges-using-genomicranges.html).  The plot will use hierarchical clustering to order the cells and provide a summary of the similarity between groups of cells.
 
 ```{r}
 
@@ -193,12 +197,10 @@ plot_heatmap <- function(gr, dist_method = "euclidean"){
       id = abline_ids,
       gp = gpar(lty = 1, lwd = 1))
   })
-  
-  return(list("heatmap" = hm, "matrix" = mat))
 }
-
 ```
 
+Plotting SA1090 (the primary sample), we can see that there are two major groups, a baseline diploid and a baseline tetraploid group.  Both groups harbour additional heterogeneity.  Looking closely, it appears that many of the patterns that distinguish populations within the diploid group are also found in the tetraploid group.
 
 ```{r}
 gr = cn %>%
@@ -207,22 +209,23 @@ gr = cn %>%
   pivot_wider(names_from = cell_id, values_from = state) %>%
   GenomicRanges::makeGRangesFromDataFrame(keep.extra.columns=TRUE,ignore.strand=TRUE)
 
-heatmap_info = plot_heatmap(gr)
+plot_heatmap(gr)
 ```
 
-Alternative distance methods can be specified, see the get_dist function from factoextras: https://www.rdocumentation.org/packages/factoextra/versions/1.0.7/topics/dist.
+The default distance method for generating the hierarchical clustering was eucldean, which will naturally result in large distances between diploid and tetraploid cells. Alternative distance methods can be specified, see the get_dist function from [factoextras](https://www.rdocumentation.org/packages/factoextra/versions/1.0.7/topics/dist).  If we use pearson correlation as the distance method, we see significant mixing of the diploid and tetraploid populations indicating that tetraploidization is occuring independently and sporadically throughout the population.
 
 ```{r}
-heatmap_info = plot_heatmap(gr, dist_method = "pearson")
+plot_heatmap(gr, dist_method = "pearson")
 ```
+
+If we plot total_reads by mean_copy (average ploidy) there appears to be a relationship, likely due to the fact that tetraploid cells will have twice the DNA available and take up more sequencing realestate.  Classifying diploid and tetraploid, the difference in mean total_reads is highly significant, further evidence the tetraploid cells are truly tetraploid.  Some cells classified as diploid may in fact be tetraploid with a perfect doubling of all chromosomes though this would be difficult to determine without orthogonal experiments.  Note that we havent ruled out doublets with certainty.
 
 ```{r}
 metrics %>%
   filter(sample_id == "SA1090") %>%
-  ggplot() + geom_point(aes(x=mean_copy, y=total_reads))
-```
+  ggplot(aes(x=mean_copy, y=total_reads)) + geom_point() +
+  geom_smooth(method='lm', formula= y~x)
 
-```{r}
 metrics %>%
   filter(sample_id == "SA1090") %>%
   mutate(is_polyploid = mean_copy > 2.5) %>%
@@ -230,13 +233,11 @@ metrics %>%
   stat_compare_means(label.x = 1.3)
 ```
 
-# Clustering
+## Clustering
 
-We will cluster based on raw data (copy).
+In order to further understand the population structure we can cluster the cells by their copy number profiles.  It is worth noting that for some datasets, clustering is inappropriate.  If the population of cells is continuously evolving and accruing neutral copy number changes, the cells will lie on a continuum of copy number change.  Any maximal set of related cells could be considered a 'cluster' if a copy number change exists specific to that set of cells.  In such a case phylogenetic representation is more appropriate.  However, in many real datasets sets of cells will cluster due to either selection having favoured the expansion of some cell populations and the extinction of others.
 
-There is a great tutorial here: https://bioconductor.org/books/release/OSCA/clustering.html
-
-First try a k-means cluster and plot a umap projection:
+We will first cluster the cells using k-means.  Independent segmentation of each cell using HMMCopy can produce small differences in segment boundaries that may affect clustering.  We will thus cluster based on the raw copy number ('copy' column) instead of the HMMCopy state.  Start by creating a matrix of raw copy number values, filtering bins with NaNs in any cell and scaling the data to allow clustering of cells with dissimilar ploidy.
 
 ```{r message=FALSE}
 gr = cn %>%
@@ -254,23 +255,15 @@ mat <- as.matrix(GenomicRanges::mcols(gr))
 mat <- scale(mat)
 
 mat <- t(mat)
-
-# k means clustering on top 100 pca components, use 10 restarts, set seed for consistency
-set.seed(42)
-mat.pca <- prcomp(mat)
-clust.kmeans <- kmeans(mat.pca$x[, 1:100], centers=20, nstart=10)
-clust = clust.kmeans$cluster
-
-# umap plot
-mat.umap = umap(mat)
-mat.umap.tbl = tibble(x=mat.umap$layout[,1], y=mat.umap$layout[,2], cluster=factor(clust))
 ```
+
+We will then use PCA to transform the data to a reduced dimensionality representation.  In bin level copy number data, many of the bins will be highly correlated especially with neighboring bins subject to the same copy number change.  PCA will effectively compress multiple correlated bins into a single dimension.  Working with the top PCA components will be desirable because it decreases the computational burden of downstream computation (ie clustering) and reduces noise by averaging across multiple bins.  PCA can be run using the `prcomp` function:
 
 ```{r}
-ggplot(mat.umap.tbl) + geom_point(aes(x=x, y=y, color=cluster))
+mat.pca <- prcomp(mat)
 ```
 
-PCA, but probably wont keep:
+It can be informative to plot the PCA loadings of the top components.  The loadings for a given component represent how much each bin contributes to that component.  Large positive or negative values indicate a strong positive or negative correlation of the bin with the component respectively.  Values close to 0 indicate the bin is uncorrelated with the component.  The PCA loading plot can be helpful in identifying problematic noisy bins.  These bins will show up as isolated spikes in the PCA loading plot.  The first PCA plotted below looks unproblematic.  Try setting the value of a bin to 1000 for a subset of cells and redoing the PCA to see the effect.
 
 ```{r}
 pc = "PC1"
@@ -289,18 +282,23 @@ GenomicRanges::as.data.frame(gr.pca) %>%
   xlab('chromosome')
 ```
 
-Use the gap statistic to select the best k.
+Now run k-means on the first 50 PCs.  Use 12 cluster centers and 100 restarts and set a seed for consistency.
 
-```{r message=FALSE, eval=FALSE}
-gaps <- clusGap(mat, kmeans, K.max=20, B=10)
-best.k <- maxSE(gaps$Tab[,"gap"], gaps$Tab[,"SE.sim"])
-best.k
-
-plot(gaps$Tab[,"gap"], xlab="Number of clusters", ylab="Gap statistic")
-abline(v=best.k, col="red")
+```{r}
+set.seed(42)
+clust.kmeans <- kmeans(mat.pca$x[, 1:50], centers=12, nstart=100)
+clust = clust.kmeans$cluster
 ```
 
-We can also assess the clustering using the silhouette method.
+UMAP is a non-linear dimensionality reduction technique favoured for its ability to preserve much of the structure of the data in a 2-D plot.  We can use UMAP to visualize the clustering.
+
+```{r}
+mat.umap = umap(mat)
+mat.umap.tbl = tibble(x=mat.umap$layout[,1], y=mat.umap$layout[,2], cluster=factor(clust))
+ggplot(mat.umap.tbl) + geom_point(aes(x=x, y=y, color=cluster))
+```
+
+We can also assess the clustering using the silhouette method.  Briefly, the [silhouette width statistic](https://en.wikipedia.org/wiki/Silhouette_(clustering)) is calculated based on the mean distance of a datapoint to every other datapoint in the same cluster, and the mean distance to datapoints in the next closest cluster.  A silhouette width less than 0 could indicate the cell may be better assigned to a different cluster, the cell is an outlier, or the data are not spherically distributed around cluster centers.
 
 ```{r}
 sil.approx <- approxSilhouette(mat, clusters=clust)
@@ -313,15 +311,51 @@ ggplot(sil.data, aes(x=cluster, y=width, colour=closest)) +
     ggbeeswarm::geom_quasirandom(method="smiley")
 ```
 
-As an alternative, lets try a graph based clustering approach.
+We used k=12 cluster centers somewhat arbitrarily.  Many strategies exist for selecting an appropriate value for k.  For instance, we could use the gap statistic to select an optimal k as shown below.  The optimal number of clusters suggested by this method may be less than expected reflecting the issues with clustering, especially k-means clustering, on this type of data.  Generally speaking, differences between sub-populations will vary widely in scale with some populations well separated by large copy number changes and other derivative populations differing only by a few changes.
+
+```{r message=FALSE}
+gaps <- clusGap(mat.pca$x[, 1:50], kmeans, K.max=30, B=100)
+ggplot(as_tibble(gaps$Tab) %>% mutate(k=factor(1:30))) +
+  geom_point(aes(x=k, y=gap)) +
+  geom_vline(xintercept=best.k, col="red", lwd=0.5, lty=2) +
+  xlab("Number of clusters") +
+  ylab("Gap statistic")
+```
+
+
+
+best.k <- maxSE(gaps$Tab[,"gap"], gaps$Tab[,"SE.sim"])
+
+ggplot(as_tibble(gaps$Tab) %>% mutate(k=factor(1:30))) +
+  geom_point(aes(x=k, y=gap)) +
+  geom_vline(xintercept=best.k, col="red", lwd=0.5, lty=2) +
+  xlab("Number of clusters") +
+  ylab("Gap statistic")
+
+
+
+gap_stat <- clusGap(mat.pca$x[, 1:50], FUN = pam, K.max = 30, B = 50)
+fviz_gap_stat(gap_stat)
+
+
+pure.pbmc <- neighborPurity(mat.pca$x[, 1:50], clusters=clust)
+
+pure.data <- as.data.frame(pure.pbmc)
+pure.data$maximum <- factor(pure.data$maximum)
+pure.data$cluster <- factor(clust)
+
+ggplot(pure.data, aes(x=cluster, y=purity, colour=maximum)) +
+    ggbeeswarm::geom_quasirandom(method="smiley")
+    
+    
+    
+
+Alternative clustering approaches are possible, see [this excellent scRNA tutorial](https://bioconductor.org/books/release/OSCA/clustering.html) for ideas.  A graph based clustering approach such as that illustrated below could work better for clustering copy number data as graph based methods will not favour spherical clusters.
 
 ```{r eval=FALSE}
-d = get_dist(mat, method = "euclidean")
-
 # graph based clustering
 set.seed(42)
-mat.pca <- prcomp(mat)
-g <- buildSNNGraph(t(mat.pca), k=10, type="number")
+g <- buildSNNGraph(t(mat.pca$x[, 1:50]), k=10, type="number")
 clust <- igraph::cluster_walktrap(g)$membership
 table(clust)
 
@@ -338,6 +372,8 @@ sil.data$cluster <- factor(clust)
 ggplot(sil.data, aes(x=cluster, y=width, colour=closest)) + 
     ggbeeswarm::geom_quasirandom(method="smiley")
 ```
+
+In order to visualize the cluster copy number, lets modify our heatmap plotting function to take in a clustering, order the rows by each cell's cluster label, and annotate the clusters on the left side of the heatmap.
 
 ```{r}
 plot_cluster_heatmap <- function(gr, clust){
@@ -408,8 +444,6 @@ plot_cluster_heatmap <- function(gr, clust){
       id = abline_ids,
       gp = gpar(lty = 1, lwd = 1))
   })
-  
-  return(list("heatmap" = hm, "matrix" = mat))
 }
 ```
 
@@ -422,7 +456,7 @@ gr = cn %>%
 plot_cluster_heatmap(gr, clust)
 ```
 
-Create merged cluster level copy number:
+We can also create merged cluster level copy number data and Create merged cluster level copy number:
 
 ```{r}
 clust.df <- enframe(clust.kmeans$cluster) %>%
@@ -450,6 +484,8 @@ http://genome.ucsc.edu/cgi-bin/hgTracks?db=hg19&lastVirtModeType=default&lastVir
 
 
 
+There is a great tutorial here: https://bioconductor.org/books/release/OSCA/clustering.html
+
 
 
 
@@ -459,12 +495,12 @@ subset.gr
 ```
 
 ```{r}
-cencus.amps = read_csv('Census_ampThu\ Apr\ 16\ 15_35_36\ 2020.csv') %>%
+cencus.amps = read_csv('../Census_ampThu\ Apr\ 16\ 15_35_36\ 2020.csv') %>%
   dplyr::rename(symbol = `Gene Symbol`)
 
 # read human genes, normalize chromosome names
-human.genes = genes(TxDb.Hsapiens.UCSC.hg19.knownGene) %>%
-  renameSeqlevels(sub("chr", "", seqlevels(human.genes)))
+human.genes = genes(TxDb.Hsapiens.UCSC.hg19.knownGene)
+human.genes = renameSeqlevels(human.genes, sub("chr", "", seqlevels(human.genes)))
 
 # add gene symbol from org.Hs.egSYMBOL
 GenomicRanges::mcols(human.genes) = tibble(gene_id=human.genes$gene_id) %>%
