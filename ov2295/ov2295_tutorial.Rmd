@@ -313,42 +313,15 @@ ggplot(sil.data, aes(x=cluster, y=width, colour=closest)) +
 
 We used k=12 cluster centers somewhat arbitrarily.  Many strategies exist for selecting an appropriate value for k.  For instance, we could use the gap statistic to select an optimal k as shown below.  The optimal number of clusters suggested by this method may be less than expected reflecting the issues with clustering, especially k-means clustering, on this type of data.  Generally speaking, differences between sub-populations will vary widely in scale with some populations well separated by large copy number changes and other derivative populations differing only by a few changes.
 
-```{r message=FALSE}
+```{r message=FALSE, warning=FALSE}
 gaps <- clusGap(mat.pca$x[, 1:50], kmeans, K.max=30, B=100)
+best.k <- maxSE(gaps$Tab[,"gap"], gaps$Tab[,"SE.sim"])
 ggplot(as_tibble(gaps$Tab) %>% mutate(k=factor(1:30))) +
   geom_point(aes(x=k, y=gap)) +
   geom_vline(xintercept=best.k, col="red", lwd=0.5, lty=2) +
   xlab("Number of clusters") +
   ylab("Gap statistic")
 ```
-
-
-
-best.k <- maxSE(gaps$Tab[,"gap"], gaps$Tab[,"SE.sim"])
-
-ggplot(as_tibble(gaps$Tab) %>% mutate(k=factor(1:30))) +
-  geom_point(aes(x=k, y=gap)) +
-  geom_vline(xintercept=best.k, col="red", lwd=0.5, lty=2) +
-  xlab("Number of clusters") +
-  ylab("Gap statistic")
-
-
-
-gap_stat <- clusGap(mat.pca$x[, 1:50], FUN = pam, K.max = 30, B = 50)
-fviz_gap_stat(gap_stat)
-
-
-pure.pbmc <- neighborPurity(mat.pca$x[, 1:50], clusters=clust)
-
-pure.data <- as.data.frame(pure.pbmc)
-pure.data$maximum <- factor(pure.data$maximum)
-pure.data$cluster <- factor(clust)
-
-ggplot(pure.data, aes(x=cluster, y=purity, colour=maximum)) +
-    ggbeeswarm::geom_quasirandom(method="smiley")
-    
-    
-    
 
 Alternative clustering approaches are possible, see [this excellent scRNA tutorial](https://bioconductor.org/books/release/OSCA/clustering.html) for ideas.  A graph based clustering approach such as that illustrated below could work better for clustering copy number data as graph based methods will not favour spherical clusters.
 
@@ -456,7 +429,7 @@ gr = cn %>%
 plot_cluster_heatmap(gr, clust)
 ```
 
-We can also create merged cluster level copy number data and Create merged cluster level copy number:
+We can also merge cell copy number data by cluster to show aggregate cluster level copy number.
 
 ```{r}
 clust.df <- enframe(clust.kmeans$cluster) %>%
@@ -473,29 +446,23 @@ cn_clust <- cn %>%
 ```
 
 ```{r}
-cn_clust %>% filter(cluster == 1) %>% plot_profile()
-cn_clust %>% filter(cluster == 2) %>% plot_profile()
-cn_clust %>% filter(cluster == 3) %>% plot_profile()
+cn_clust %>% filter(cluster == 7) %>% plot_profile()
+cn_clust %>% filter(cluster == 8) %>% plot_profile()
+cn_clust %>% filter(cluster == 9) %>% plot_profile()
 ```
 
 There appears to be a deletion on chromosome 5.  Navigate here to see why:
 http://genome.ucsc.edu/cgi-bin/hgTracks?db=hg19&lastVirtModeType=default&lastVirtModeExtraState=&virtModeType=default&virtMode=0&nonVirtPosition=&position=chr5%3A67500000%2D72000002&hgsid=1117136619_dGtW3EEOeJAIG6cYbSGFZwGwyLzb
-
-
-
-
-There is a great tutorial here: https://bioconductor.org/books/release/OSCA/clustering.html
-
-
-
 
 ```{r}
 subset.gr = cn_clust %>% filter(copy < 0.2, chr != "Y") %>% makeGRangesFromDataFrame()
 subset.gr
 ```
 
+Finally, lets look at the gene content of some of the high level amplifications.  First read in a list of known oncogenic amplified genes from the cancer gene census.  Read hg19 genes from `TxDb.Hsapiens.UCSC.hg19.knownGene` and be careful to rename chromosomes, ie "chr9" -> "9".  Add gene symbols from `org.Hs.egSYMBOL`.
+
 ```{r}
-cencus.amps = read_csv('../Census_ampThu\ Apr\ 16\ 15_35_36\ 2020.csv') %>%
+cencus.amps = read_csv('./Census_ampThu\ Apr\ 16\ 15_35_36\ 2020.csv') %>%
   dplyr::rename(symbol = `Gene Symbol`)
 
 # read human genes, normalize chromosome names
@@ -508,134 +475,22 @@ GenomicRanges::mcols(human.genes) = tibble(gene_id=human.genes$gene_id) %>%
 
 # subset by cancer gene cencus amps
 cencus.amps.genes = human.genes[(elementMetadata(human.genes)[,'symbol'] %in% cencus.amps$symbol)]
+```
 
+Filter copy number for high level events, then subset by overlap with gene regions.  The SOX2 gene is amplified.
+
+```{r}
 subset.gr = cn_clust %>% filter(copy > 10) %>% makeGRangesFromDataFrame(keep.extra.columns=TRUE,ignore.strand=TRUE)
 subset.genes = subsetByOverlaps(cencus.amps.genes, subset.gr)
+subset.genes
+```
 
+Overlapping the SOX2 region with all cluster copy number we find that SOX2 is subclonally amplified.
+
+```{r}
 all.gr = cn_clust %>% makeGRangesFromDataFrame(keep.extra.columns=TRUE,ignore.strand=TRUE)
 subsetByOverlaps(all.gr, subset.genes) %>%
   as_tibble() %>%
   ggplot() + geom_col(aes(x=factor(cluster), y=copy))
 ```
-
-
-
-
-GenomicRanges::mcols(subset.genes) = GenomicRanges::mcols(subset.genes) %>%
-
-
-subsetByOverlaps(genes(TxDb.Hsapiens.UCSC.hg19.knownGene), subset.gr)
-
-genes(TxDb.Hsapiens.UCSC.hg19.knownGene)
-
-
-
-Select a cell then plot normalized binned reads across the genome.
-
-```{r plotsingle, echo=FALSE, eval=FALSE}
-cell = filter(cn, cell_id == "SA922-A90554B-R35-C19")
-
-cell$chr <- factor(cell$chr, levels = c(1:22, "X", "Y"))
-
-cols <- c(rev(brewer.pal(n = 3, "Blues"))[1:2], "#CCCCCC", tail(brewer.pal(n = 8, "OrRd"), 6))
-cols <- c(cols, cols[c(9, 9, 9, 9)])
-names(cols) <- 0:12
-
-cell$cn_state = factor(cell$state, names(cols))
-
-ggplot(data = cell) +
-  geom_point(mapping = aes(x = start, y = copy, colour = cn_state), size = 0.5) +
-  facet_grid(~chr, scales = "free_x", space="free_x", switch = "x") +
-  theme(panel.spacing = unit(0.05, "cm")) +
-  scale_x_continuous(breaks = c()) +
-  scale_color_manual(values = cols, labels = names(cols), drop = FALSE) +
-  scale_y_continuous(breaks = seq(0, 18, by = 2), limit = c(0, 12)) +
-  xlab('chromosome')
-```
-
-## Exploring cells with different properties
-
-Lets make a function out of our cell plotting code and use it to plot cells with different properties.
-
-```{r plotfunc, echo=FALSE, eval=FALSE}
-plot_profile <- function(cn, plot_cell_id) {
-  cell$chr <- factor(cell$chr, levels = c(1:22, "X", "Y"))
-
-  cols <- c(rev(brewer.pal(n = 3, "Blues"))[1:2], "#CCCCCC", tail(brewer.pal(n = 8, "OrRd"), 6))
-  cols <- c(cols, cols[c(9, 9, 9, 9)])
-  names(cols) <- 0:12
-
-  cell$cn_state = factor(cell$state, names(cols))
-
-  ggplot(data = cell) +
-    geom_point(mapping = aes(x = start, y = copy, colour = cn_state), size = 0.5) +
-    facet_grid(~chr, scales = "free_x", space="free_x", switch = "x") +
-    theme(panel.spacing = unit(0.05, "cm")) +
-    scale_x_continuous(breaks = c()) +
-    scale_color_manual(values = cols, labels = names(cols), drop = FALSE) +
-    scale_y_continuous(breaks = seq(0, 18, by = 2), limit = c(0, 12)) +
-    xlab('chromosome')
-}
-
-plot_cell <- function(cn, plot_cell_id) {
-  cell = filter(cn, cell_id == plot_cell_id)
-  plot_profile(cell)
-}
-```
-
-A cell with very low coverage:
-
-```{r echo=FALSE, eval=FALSE}
-plot_cell(cn, "SA922-A90554B-R23-C39")
-```
-A low quality cell:
-
-```{r echo=FALSE, eval=FALSE}
-plot_cell(cn, "SA922-A90554B-R23-C03")
-```
-
-A cell in s-phase:
-
-```{r echo=FALSE, eval=FALSE}
-plot_cell(cn, "SA922-A90554B-R23-C64")
-```
-Note that 
-
-```{r echo=FALSE, eval=FALSE}
-cn %>% filter(cell_id == "SA922-A90554B-R27-C22", gc > 0) %>%
-  ggplot() +
-  geom_point(mapping = aes(x = gc, y = reads, colour = state), size = 0.5)
-```
-
-A cell with catastophic mitotic error including complete loss of 9q.
-
-```{r echo=FALSE, eval=FALSE}
-plot_cell(cn, "SA922-A90554B-R23-C38")
-```
-A cell in s-phase.
-
-```{r echo=FALSE, eval=FALSE}
-plot_cell(cn, "SA922-A90554B-R23-C64")
-```
-
-
-low coverage: SA922-A90554B-R23-C39
-
-low coverage: SA922-A90554B-R23-C03
-
-low coverage: SA922-A90554B-R23-C03
-
-
-```{r eval=FALSE}
-ggplot(data = cell) +
-  geom_rect(mapping = aes(xmin = start, xmax=end, ymin = copy - 0.2, ymax=copy + 0.2), color="black", fill="white") +
-  facet_grid(~chr, scales = "free_x", space="free_x", switch = "x") +
-  theme(panel.spacing = unit(0.05, "cm")) +
-  scale_x_continuous(breaks = c()) +
-  scale_y_continuous(breaks = seq(0, 18, by = 2), limit = c(0, 12)) +
-  xlab('chromosome')
-```
-
-
-
 
