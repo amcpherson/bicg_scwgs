@@ -5,9 +5,15 @@ output:
     df_print: paged
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+## Introduction
 
+In this tutorial we will analyze the OV2295 cell line DLP data from the paper "Clonal Decomposition and DNA Replication States Defined by Scaled Single-Cell Genome Sequencing", Laks et al. (2019) https://doi.org/10.1016/j.cell.2019.10.026.  The OV2295 cell lines were generated from a primary, metastasis and relapse specimens obtained from a patient with high grade serous ovarian cancer (see Létourneau et al. (2012), https://doi.org/10.1186/1471-2407-12-379).  The cell lines have a high degree of genomic instability, and significant genomic heterogeneity including with respect to large chromosomal changes.  The data from the Laks et al. paper is deposited in zenodo (https://doi.org/10.5281/zenodo.3445364).
+
+## Load the required packages
+
+This tutorial will rely heavily on the [tidyverse](https://www.tidyverse.org/) packages including [ggplot2](https://ggplot2.tidyverse.org/).  Heatmap plotting will use [ComplexHeatmap](https://jokergoo.github.io/ComplexHeatmap-reference/book/) and manipulation of genomic segment data will be done with [GenomicRanges](https://bioconductor.org/packages/release/bioc/vignettes/GenomicRanges/inst/doc/GenomicRangesIntroduction.html).
+
+```{r setup, echo=TRUE, warning = FALSE, message = FALSE}
 library(tidyverse)
 library(RColorBrewer)
 library(vroom)
@@ -15,20 +21,13 @@ library(ggExtra)
 library(grid)
 library(factoextra)
 library(igraph)
-library(scran)
 library(bluster)
 library(ggbeeswarm)
 library(umap)
 library(cluster)
 library(Homo.sapiens)
 library(ggpubr)
-
-Sys.setenv("DISPLAY"=":0.0")
 ```
-
-## Introduction
-
-In this tutorial we will analyze the OV2295 cell line DLP data from the paper "Clonal Decomposition and DNA Replication States Defined by Scaled Single-Cell Genome Sequencing", Laks et al. (2019) https://doi.org/10.1016/j.cell.2019.10.026.  The OV2295 cell lines were generated from a primary, metastasis and relapse specimens obtained from a patient with high grade serous ovarian cancer (see Létourneau et al. (2012), https://doi.org/10.1186/1471-2407-12-379).  The cell lines have a high degree of genomic instability, and significant genomic heterogeneity including with respect to large chromosomal changes.  The data from the Laks et al. paper is deposited in zenodo (https://doi.org/10.5281/zenodo.3445364).
 
 ## Read and QC the copy number data
 
@@ -44,6 +43,7 @@ We will first read the metrics data, assess the quality of the cells and filter 
 metrics <- vroom("ov2295_cell_metrics.csv.gz")
 metrics %>% head()
 ```
+
 Plot a scatterplot of quality by total reads with marginals on the axes.  The cloud of cells with significant read count and quality less than 0.75 are cells for which we cannot effectively predict copy number.  These cells could either be cycling, or for which the genomic DNA degraded significantly prior to sequencing, or for which tagmentation failed.
 
 The plots in this notebook will be using ggplot extensively.  I recommend the r4ds tutorials (https://r4ds.had.co.nz/data-visualisation.html) and the ggplot cheat sheet (https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf) for further reference.

@@ -1,0 +1,296 @@
+---
+title: "GM DLP Analysis"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(RColorBrewer)
+
+Sys.setenv("DISPLAY"=":0.0")
+```
+
+## Read copy number data    
+
+```{r readmetrics}
+metrics = read_csv('/juno/work/shah/tantalus/SC-3423/results/annotation/A73044A_metrics.csv.gz')
+metrics %>% head()
+```
+
+
+```{r}
+p <- metrics %>%
+  ggplot(mapping = aes(x=quality, y=total_reads, color=is_s_phase)) + 
+  geom_point() +
+  theme(legend.position = "left")
+ggMarginal(p, type="histogram", groupColour=TRUE, groupFill=TRUE)
+```
+
+
+
+```{r readdata}
+cn = read_csv(
+  '/juno/work/shah/tantalus/SC-3423/results/hmmcopy/A73044A_reads.csv.gz',
+  col_types = cols(
+    chr = col_factor(NULL),
+    cell_id = col_factor(NULL)
+  ))
+```
+
+
+```{r readdata}
+cn %>% head()
+```
+
+```{r}
+cn %>% filter(cell_id == "SA928-A73044A-R08-C59", gc > 0) %>%
+  mutate(chr = factor(chr, levels = c(1:22, "X", "Y"))) %>%
+  ggplot() +
+  geom_point(mapping = aes(x = start, y = reads), size = 0.5) +
+  facet_grid(~chr, scales = "free_x", space="free_x", switch = "x") +
+  theme(panel.spacing = unit(0.05, "cm")) +
+  scale_x_continuous(breaks = c()) +
+  xlab('chromosome')
+```
+
+
+```{r}
+cn %>% filter(cell_id == "SA928-A73044A-R08-C59", gc > 0) %>%
+  ggplot(aes(x = gc, y = reads)) +
+  geom_point(size = 0.5) +
+  geom_smooth(method = "loess") +
+  theme_bw()
+```
+
+
+```{r}
+cn %>%
+  dplyr::filter(cell_id == "SA928-A73044A-R08-C59", gc > 0) %>%
+  mutate(cn_state = factor(state, names(cn.colors))) %>%
+  mutate(chr = factor(chr, levels = c(1:22, "X", "Y"))) %>%
+  ggplot() +
+  geom_point(mapping = aes(x = start, y = copy, colour = cn_state), size = 0.5) +
+  facet_grid(~chr, scales = "free_x", space="free_x", switch = "x") +
+  theme(panel.spacing = unit(0.05, "cm")) +
+  scale_x_continuous(breaks = c()) +
+  scale_color_manual(values = cn.colors, labels = names(cn.colors), drop = FALSE) +
+  scale_y_continuous(breaks = seq(0, 6, by = 1), limit = c(0, 6)) +
+  xlab('chromosome')
+```
+
+
+```{r}
+cn %>% filter(cell_id == "SA928-A73044A-R08-C58", gc > 0) %>%
+  ggplot(aes(x = gc, y = reads)) +
+  geom_point(size = 0.5) +
+  geom_smooth(method = "loess") +
+  theme_bw()
+```
+
+
+```{r}
+cn %>%
+  filter(cell_id == "SA928-A73044A-R08-C58", gc > 0) %>%
+  mutate(cn_state = factor(state, names(cn.colors))) %>%
+  mutate(chr = factor(chr, levels = c(1:22, "X", "Y"))) %>%
+  ggplot() +
+  geom_point(mapping = aes(x = start, y = copy, colour = cn_state), size = 0.5) +
+  facet_grid(~chr, scales = "free_x", space="free_x", switch = "x") +
+  theme(panel.spacing = unit(0.05, "cm")) +
+  scale_x_continuous(breaks = c()) +
+  scale_color_manual(values = cn.colors, labels = names(cn.colors), drop = FALSE) +
+  scale_y_continuous(breaks = seq(0, 8, by = 1), limit = c(0, 8)) +
+  xlab('chromosome')
+```
+
+## Plot a single cell
+
+Select a cell then plot normalized binned reads across the genome.
+
+```{r plotsingle, echo=FALSE}
+cell = filter(cn, cell_id == "SA922-A90554B-R35-C19")
+
+cell$chr <- factor(cell$chr, levels = c(1:22, "X", "Y"))
+
+cn.colors <- c(rev(brewer.pal(n = 3, "Blues"))[1:2], "#CCCCCC", tail(brewer.pal(n = 8, "OrRd"), 6))
+cn.colors <- c(cn.colors, cn.colors[c(9, 9, 9, 9)])
+names(cn.colors) <- 0:12
+
+cell$cn_state = factor(cell$state, names(cn.colors))
+
+ggplot(data = cell) +
+  geom_point(mapping = aes(x = start, y = copy, colour = cn_state), size = 0.5) +
+  facet_grid(~chr, scales = "free_x", space="free_x", switch = "x") +
+  theme(panel.spacing = unit(0.05, "cm")) +
+  scale_x_continuous(breaks = c()) +
+  scale_color_manual(values = cn.colors, labels = names(cn.colors), drop = FALSE) +
+  scale_y_continuous(breaks = seq(0, 18, by = 2), limit = c(0, 12)) +
+  xlab('chromosome')
+```
+
+## Exploring cells with different properties
+
+Lets make a function out of our cell plotting code and use it to plot cells with different properties.
+
+```{r plotfunc, echo=FALSE}
+plot_cell <- function(cn, plot_cell_id) {
+  cell = filter(cn, cell_id == plot_cell_id)
+  
+  cell$chr <- factor(cell$chr, levels = c(1:22, "X", "Y"))
+
+  cn.colors <- c(rev(brewer.pal(n = 3, "Blues"))[1:2], "#CCCCCC", tail(brewer.pal(n = 8, "OrRd"), 6))
+  cn.colors <- c(cn.colors, cn.colors[c(9, 9, 9, 9)])
+  names(cn.colors) <- 0:12
+
+  cell$cn_state = factor(cell$state, names(cn.colors))
+
+  ggplot(data = cell) +
+    geom_point(mapping = aes(x = start, y = copy, colour = cn_state), size = 0.5) +
+    facet_grid(~chr, scales = "free_x", space="free_x", switch = "x") +
+    theme(panel.spacing = unit(0.05, "cm")) +
+    scale_x_continuous(breaks = c()) +
+    scale_color_manual(values = cn.colors, labels = names(cn.colors), drop = FALSE) +
+    scale_y_continuous(breaks = seq(0, 18, by = 2), limit = c(0, 12)) +
+    xlab('chromosome')
+}
+```
+
+A cell with very low coverage:
+
+```{r plotcell1, echo=FALSE}
+plot_cell(cn, "SA922-A90554B-R23-C39")
+```
+A low quality cell:
+
+```{r plotcell1, echo=FALSE}
+plot_cell(cn, "SA922-A90554B-R23-C03")
+```
+
+A cell in s-phase:
+
+```{r plotcell1, echo=FALSE}
+plot_cell(cn, "SA922-A90554B-R23-C64")
+```
+Note that 
+
+```{r plotcell1, echo=FALSE}
+cn %>% filter(cell_id == "SA922-A90554B-R27-C22", gc > 0) %>%
+  ggplot() +
+  geom_point(mapping = aes(x = gc, y = reads, colour = state), size = 0.5)
+```
+
+A cell with catastophic mitotic error including complete loss of 9q.
+
+```{r plotcell1, echo=FALSE}
+plot_cell(cn, "SA922-A90554B-R23-C38")
+```
+A cell in s-phase.
+
+```{r plotcell1, echo=FALSE}
+plot_cell(cn, "SA922-A90554B-R23-C64")
+```
+
+
+low coverage: SA922-A90554B-R23-C39
+
+low coverage: SA922-A90554B-R23-C03
+
+low coverage: SA922-A90554B-R23-C03
+
+
+```{r}
+cell = filter(cn, cell_id == "SA922-A90554B-R35-C19")
+
+  cell = filter(cn, cell_id == plot_cell_id)
+  
+  cell$chr <- factor(cell$chr, levels = c(1:22, "X", "Y"))
+
+  cn.colors <- c(rev(brewer.pal(n = 3, "Blues"))[1:2], "#CCCCCC", tail(brewer.pal(n = 8, "OrRd"), 6))
+  cn.colors <- c(cn.colors, cn.colors[c(9, 9, 9, 9)])
+  names(cn.colors) <- 0:12
+
+  cell$cn_state = factor(cell$state, names(cn.colors))
+
+cn %>% filter(cell_id == "SA922-A90554B-R35-C19") %>%
+  mutate()
+ggplot(data = cell) +
+  geom_rect(mapping = aes(xmin = start, xmax=end, ymin = copy - 0.2, ymax=copy + 0.2), color="black", fill="white") +
+  facet_grid(~chr, scales = "free_x", space="free_x", switch = "x") +
+  theme(panel.spacing = unit(0.05, "cm")) +
+  scale_x_continuous(breaks = c()) +
+  scale_y_continuous(breaks = seq(0, 18, by = 2), limit = c(0, 12)) +
+  xlab('chromosome')
+```
+
+
+```{r}
+
+plot_heatmap <- function(gr){
+  #' plot a heatmap with chromosome boundaries
+  #' the order of the rows can be customized here
+  #' its a simple distance based clustering
+  
+  mat <- as.matrix(GenomicRanges::mcols(gr))
+  mat <- t(mat)
+  hr <- hclust(dist(mat), method = "average")
+  hr = as.dendrogram(hr)
+  
+  # additional chromosome annotations
+  nbins <- chrom_bdry[length(chrom_bdry)]
+  abline_x = chrom_bdry[-1]/nbins
+  x_label <- names(nbins_aggr)
+  mid.point <- (nbins_aggr/2)/nbins
+  mid.point <- abline_x - mid.point
+  abline_ids <- rep(1:length(abline_x),each=2)
+  abline_y <- rep(c(0,1), times=length(abline_x))
+  rownames(abline_x) <- NULL
+  abline_x <- rep(abline_x,each=2)
+  rm(nbins)
+  
+  #annotation to label chromosomes
+  ha_column = ComplexHeatmap::HeatmapAnnotation(cn = function(index) {
+    grid.text(x_label,x=mid.point,y=1,just = c("center", "top"),gp=gpar(col="#202020",fontsize=6))
+  })
+  
+  #the main heatmap
+  mat[mat>=6] = ">=6"
+  colors = structure(
+    rev(c("#3783bb","#a7d0e4","#f7f6f6","#fca082","#fb694a","#e32f27","#b11218")),
+    names = rev(c("0", "1", "2", "3","4","5",">=6")))
+  
+  hm = ComplexHeatmap::Heatmap(matrix = mat,
+    name = "ploidy",
+    col = colors,
+    cluster_rows = hr,
+    cluster_columns = FALSE,
+    show_row_names = FALSE,
+    bottom_annotation = ha_column,
+    column_title = "CNV heatmap @ 2Mb resolution")
+  
+  ComplexHeatmap::draw(hm, row_dend_side = "left")
+  ComplexHeatmap::decorate_heatmap_body("ploidy", {
+    grid.polyline(
+      x= abline_x,
+      y = abline_y,
+      id = abline_ids,
+      gp = gpar(lty = 1, lwd = 1.5))
+  }) 
+}
+
+```
+
+
+```{r}
+cn_gr = cn[, c("chr", "start", "end", "state", "cell_id")] %>%
+  pivot_wider(names_from = cell_id, values_from = state) %>%
+  GenomicRanges::makeGRangesFromDataFrame(keep.extra.columns=TRUE,ignore.strand=TRUE)
+```
+
+```{r}
+cn_gr %>%
+  plot_heatmap()
+```
+
+
