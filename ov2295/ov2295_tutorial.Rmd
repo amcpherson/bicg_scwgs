@@ -41,7 +41,7 @@ The data was analyzed using the DLP single_cell_pipeline: https://github.com/sha
 We will first read the metrics data, assess the quality of the cells and filter where necessary.  The metrics file provided by the many columns but we will focus on quality and total_reads for filtering.  Quality is calculated using a classifier trained on manually curated cell quality calls and uses many of the other metrics as features.
 
 ```{r message=FALSE}
-metrics = vroom("ov2295_cell_metrics.csv.gz")
+metrics <- vroom("ov2295_cell_metrics.csv.gz")
 metrics %>% head()
 ```
 Plot a scatterplot of quality by total reads with marginals on the axes.  The cloud of cells with significant read count and quality less than 0.75 are cells for which we cannot effectively predict copy number.  These cells could either be cycling, or for which the genomic DNA degraded significantly prior to sequencing, or for which tagmentation failed.
@@ -55,10 +55,11 @@ p <- metrics %>%
   theme(legend.position = "left")
 ggMarginal(p, type="histogram")
 ```
+
 Filter reads based on a quality threshold of 0.85 and a total read count threshold of 500k reads.  Also filter control cells based on the experimental_condition and sample_id columns.
 
 ```{r}
-metrics = metrics %>% filter(
+metrics <- metrics %>% filter(
   quality >= 0.85,
   total_reads > 500000,
   !(experimental_condition %in% c("GM", "gDNA")),
@@ -68,7 +69,7 @@ metrics = metrics %>% filter(
 Read in the copy number data.  Using vroom::vroom will significantly speed up data loading and using factors for chr and cell_id and ignoring irrelevant columns will reduce the memory footprint.
 
 ```{r}
-cn = vroom(
+cn <- vroom(
   'ov2295_cell_cn.csv.gz',
   col_types = cols(
     chr = col_factor(NULL),
@@ -89,7 +90,7 @@ cn = vroom(
 Subset copy number data by the filtered cell ids in the metrics table.
 
 ```{r}
-cn = cn %>% inner_join(metrics[, c("cell_id", "sample_id")], by = "cell_id")
+cn <- cn %>% inner_join(metrics[, c("cell_id", "sample_id")], by = "cell_id")
 cn %>% head()
 ```
 
@@ -99,21 +100,21 @@ We will plot cells using a scatter plot of normalized binned read count data.  T
 
 ```{r}
 plot_profile <- function(cn) {
-  cols <- c(rev(brewer.pal(n = 3, "Blues"))[1:2], "#CCCCCC", tail(brewer.pal(n = 8, "OrRd"), 6))
-  cols <- c(cols, cols[c(9, 9, 9, 9)])
-  names(cols) <- 0:12
+  cn.colors <- c(rev(brewer.pal(n = 3, "Blues"))[1:2], "#CCCCCC", tail(brewer.pal(n = 8, "OrRd"), 6))
+  cn.colors <- c(cn.colors, cn.colors[c(9, 9, 9, 9)])
+  names(cn.colors) <- 0:12
 
   cn %>%
-    mutate(cn_state = factor(state, names(cols))) %>%
+    mutate(cn_state = factor(state, names(cn.colors))) %>%
     mutate(chr = factor(chr, levels = c(1:22, "X", "Y"))) %>%
     ggplot() +
-    geom_point(mapping = aes(x = start, y = copy, colour = cn_state), size = 0.5) +
-    facet_grid(~chr, scales = "free_x", space="free_x", switch = "x") +
-    theme(panel.spacing = unit(0.05, "cm")) +
-    scale_x_continuous(breaks = c()) +
-    scale_color_manual(values = cols, labels = names(cols), drop = FALSE) +
-    scale_y_continuous(breaks = seq(0, 8, by = 1), limit = c(0, 8)) +
-    xlab('chromosome')
+      geom_point(mapping = aes(x = start, y = copy, colour = cn_state), size = 0.5) +
+      facet_grid(~chr, scales = "free_x", space="free_x", switch = "x") +
+      theme(panel.spacing = unit(0.05, "cm")) +
+      scale_x_continuous(breaks = c()) +
+      scale_color_manual(values = cn.colors, labels = names(cn.colors), drop = FALSE) +
+      scale_y_continuous(breaks = seq(0, 8, by = 1), limit = c(0, 8)) +
+      xlab('chromosome')
 }
 
 plot_cell <- function(cn, plot_cell_id) {
@@ -171,15 +172,15 @@ plot_heatmap <- function(gr, dist_method = "euclidean"){
     grid.text(chr_ids,x=mids,y=1,just = c("center", "top"),gp=gpar(col="#202020",fontsize=6))
   })
   
-  #the main heatmap
-  cols <- c(rev(brewer.pal(n = 3, "Blues"))[1:2], "#CCCCCC", tail(brewer.pal(n = 8, "OrRd"), 6))
-  cols <- c(cols, cols[c(9, 9, 9, 9)])
-  names(cols) <- 0:12
+  # the main heatmap
+  cn.colors <- c(rev(brewer.pal(n = 3, "Blues"))[1:2], "#CCCCCC", tail(brewer.pal(n = 8, "OrRd"), 6))
+  cn.colors <- c(cn.colors, cn.colors[c(9, 9, 9, 9)])
+  names(cn.colors) <- 0:12
 
-  hm = ComplexHeatmap::Heatmap(
+  hm <- ComplexHeatmap::Heatmap(
     matrix = mat,
     name = "ploidy",
-    col = cols,
+    col = cn.colors,
     cluster_rows = hr,
     cluster_columns = FALSE,
     show_row_names = FALSE,
@@ -203,7 +204,7 @@ plot_heatmap <- function(gr, dist_method = "euclidean"){
 Plotting SA1090 (the primary sample), we can see that there are two major groups, a baseline diploid and a baseline tetraploid group.  Both groups harbour additional heterogeneity.  Looking closely, it appears that many of the patterns that distinguish populations within the diploid group are also found in the tetraploid group.
 
 ```{r}
-gr = cn %>%
+gr <- cn %>%
   filter(sample_id == "SA1090") %>%
   dplyr::select(chr, start, end, state, cell_id) %>%
   pivot_wider(names_from = cell_id, values_from = state) %>%
@@ -223,14 +224,14 @@ If we plot total_reads by mean_copy (average ploidy) there appears to be a relat
 ```{r}
 metrics %>%
   filter(sample_id == "SA1090") %>%
-  ggplot(aes(x=mean_copy, y=total_reads)) + geom_point() +
-  geom_smooth(method='lm', formula= y~x)
+    ggplot(aes(x=mean_copy, y=total_reads)) + geom_point() +
+    geom_smooth(method='lm', formula= y~x)
 
 metrics %>%
   filter(sample_id == "SA1090") %>%
   mutate(is_polyploid = mean_copy > 2.5) %>%
-  ggplot(aes(x=is_polyploid, y=total_reads)) + geom_boxplot() +
-  stat_compare_means(label.x = 1.3)
+    ggplot(aes(x=is_polyploid, y=total_reads)) + geom_boxplot() +
+    stat_compare_means(label.x = 1.3)
 ```
 
 ## Clustering
@@ -240,13 +241,13 @@ In order to further understand the population structure we can cluster the cells
 We will first cluster the cells using k-means.  Independent segmentation of each cell using HMMCopy can produce small differences in segment boundaries that may affect clustering.  We will thus cluster based on the raw copy number ('copy' column) instead of the HMMCopy state.  Start by creating a matrix of raw copy number values, filtering bins with NaNs in any cell and scaling the data to allow clustering of cells with dissimilar ploidy.
 
 ```{r message=FALSE}
-gr = cn %>%
+gr <- cn %>%
   dplyr::select(chr, start, end, copy, cell_id) %>%
   pivot_wider(names_from = cell_id, values_from = copy) %>%
   GenomicRanges::makeGRangesFromDataFrame(keep.extra.columns=TRUE,ignore.strand=TRUE)
 
 # Remove bins with any nan across any cell
-gr = gr[complete.cases(GenomicRanges::mcols(gr))]
+gr <- gr[complete.cases(GenomicRanges::mcols(gr))]
 
 # Create matrix, remove bins that are nan across any cells
 mat <- as.matrix(GenomicRanges::mcols(gr))
@@ -274,12 +275,12 @@ GenomicRanges::mcols(gr.pca) <- list(PC=mat.pca$rotation[, pc])
 GenomicRanges::as.data.frame(gr.pca) %>%
   tibble() %>%
   dplyr::rename(chr=seqnames) %>%
-  ggplot() +
-  geom_point(mapping = aes(x = start, y = PC), size = 0.5) +
-  facet_grid(~chr, scales = "free_x", space="free_x", switch = "x") +
-  theme(panel.spacing = unit(0.05, "cm")) +
-  scale_x_continuous(breaks = c()) +
-  xlab('chromosome')
+    ggplot() +
+    geom_point(mapping = aes(x = start, y = PC), size = 0.5) +
+    facet_grid(~chr, scales = "free_x", space="free_x", switch = "x") +
+    theme(panel.spacing = unit(0.05, "cm")) +
+    scale_x_continuous(breaks = c()) +
+    xlab('chromosome')
 ```
 
 Now run k-means on the first 50 PCs.  Use 12 cluster centers and 100 restarts and set a seed for consistency.
@@ -287,14 +288,14 @@ Now run k-means on the first 50 PCs.  Use 12 cluster centers and 100 restarts an
 ```{r}
 set.seed(42)
 clust.kmeans <- kmeans(mat.pca$x[, 1:50], centers=12, nstart=100)
-clust = clust.kmeans$cluster
+clust <- clust.kmeans$cluster
 ```
 
 UMAP is a non-linear dimensionality reduction technique favoured for its ability to preserve much of the structure of the data in a 2-D plot.  We can use UMAP to visualize the clustering.
 
 ```{r}
-mat.umap = umap(mat)
-mat.umap.tbl = tibble(x=mat.umap$layout[,1], y=mat.umap$layout[,2], cluster=factor(clust))
+mat.umap <- umap(mat)
+mat.umap.tbl <- tibble(x=mat.umap$layout[,1], y=mat.umap$layout[,2], cluster=factor(clust))
 ggplot(mat.umap.tbl) + geom_point(aes(x=x, y=y, color=cluster))
 ```
 
@@ -316,11 +317,13 @@ We used k=12 cluster centers somewhat arbitrarily.  Many strategies exist for se
 ```{r message=FALSE, warning=FALSE}
 gaps <- clusGap(mat.pca$x[, 1:50], kmeans, K.max=30, B=100)
 best.k <- maxSE(gaps$Tab[,"gap"], gaps$Tab[,"SE.sim"])
-ggplot(as_tibble(gaps$Tab) %>% mutate(k=factor(1:30))) +
-  geom_point(aes(x=k, y=gap)) +
-  geom_vline(xintercept=best.k, col="red", lwd=0.5, lty=2) +
-  xlab("Number of clusters") +
-  ylab("Gap statistic")
+
+as_tibble(gaps$Tab) %>% mutate(k=factor(1:30)) %>%
+  ggplot() +
+    geom_point(aes(x=k, y=gap)) +
+    geom_vline(xintercept=best.k, col="red", lwd=0.5, lty=2) +
+    xlab("Number of clusters") +
+    ylab("Gap statistic")
 ```
 
 Alternative clustering approaches are possible, see [this excellent scRNA tutorial](https://bioconductor.org/books/release/OSCA/clustering.html) for ideas.  A graph based clustering approach such as that illustrated below could work better for clustering copy number data as graph based methods will not favour spherical clusters.
@@ -333,8 +336,8 @@ clust <- igraph::cluster_walktrap(g)$membership
 table(clust)
 
 # umap plot
-mat.umap = umap(mat)
-mat.umap.tbl = tibble(x=mat.umap$layout[,1], y=mat.umap$layout[,2], cluster=factor(clust))
+mat.umap <- umap(mat)
+mat.umap.tbl <- tibble(x=mat.umap$layout[,1], y=mat.umap$layout[,2], cluster=factor(clust))
 ggplot(mat.umap.tbl) + geom_point(aes(x=x, y=y, color=cluster))
 
 # silhouette width evaluation
@@ -391,14 +394,14 @@ plot_cluster_heatmap <- function(gr, clust){
   ha_row = ComplexHeatmap::rowAnnotation(cluster = factor(sorted_clust), col = list(cluster = cluster_colors))
 
   # the main heatmap
-  cols <- c(rev(brewer.pal(n = 3, "Blues"))[1:2], "#CCCCCC", tail(brewer.pal(n = 8, "OrRd"), 6))
-  cols <- c(cols, cols[c(9, 9, 9, 9)])
-  names(cols) <- 0:12
+  cn.colors <- c(rev(brewer.pal(n = 3, "Blues"))[1:2], "#CCCCCC", tail(brewer.pal(n = 8, "OrRd"), 6))
+  cn.colors <- c(cn.colors, cn.colors[c(9, 9, 9, 9)])
+  names(cn.colors) <- 0:12
 
   hm = ComplexHeatmap::Heatmap(
     matrix = mat,
     name = "ploidy",
-    col = cols,
+    col = cn.colors,
     cluster_rows = FALSE,
     cluster_columns = FALSE,
     show_row_names = FALSE,
@@ -421,7 +424,7 @@ plot_cluster_heatmap <- function(gr, clust){
 ```
 
 ```{r}
-gr = cn %>%
+gr <- cn %>%
   dplyr::select(chr, start, end, state, cell_id) %>%
   pivot_wider(names_from = cell_id, values_from = state) %>%
   GenomicRanges::makeGRangesFromDataFrame(keep.extra.columns=TRUE,ignore.strand=TRUE)
@@ -455,40 +458,40 @@ There appears to be a deletion on chromosome 5.  Navigate here to see why:
 http://genome.ucsc.edu/cgi-bin/hgTracks?db=hg19&lastVirtModeType=default&lastVirtModeExtraState=&virtModeType=default&virtMode=0&nonVirtPosition=&position=chr5%3A67500000%2D72000002&hgsid=1117136619_dGtW3EEOeJAIG6cYbSGFZwGwyLzb
 
 ```{r}
-subset.gr = cn_clust %>% filter(copy < 0.2, chr != "Y") %>% makeGRangesFromDataFrame()
+subset.gr <- cn_clust %>% filter(copy < 0.2, chr != "Y") %>% makeGRangesFromDataFrame()
 subset.gr
 ```
 
 Finally, lets look at the gene content of some of the high level amplifications.  First read in a list of known oncogenic amplified genes from the cancer gene census.  Read hg19 genes from `TxDb.Hsapiens.UCSC.hg19.knownGene` and be careful to rename chromosomes, ie "chr9" -> "9".  Add gene symbols from `org.Hs.egSYMBOL`.
 
 ```{r}
-cencus.amps = read_csv('./Census_ampThu\ Apr\ 16\ 15_35_36\ 2020.csv') %>%
+cencus.amps <- read_csv('./Census_ampThu\ Apr\ 16\ 15_35_36\ 2020.csv') %>%
   dplyr::rename(symbol = `Gene Symbol`)
 
 # read human genes, normalize chromosome names
-human.genes = genes(TxDb.Hsapiens.UCSC.hg19.knownGene)
-human.genes = renameSeqlevels(human.genes, sub("chr", "", seqlevels(human.genes)))
+human.genes <- genes(TxDb.Hsapiens.UCSC.hg19.knownGene)
+human.genes <- renameSeqlevels(human.genes, sub("chr", "", seqlevels(human.genes)))
 
 # add gene symbol from org.Hs.egSYMBOL
-GenomicRanges::mcols(human.genes) = tibble(gene_id=human.genes$gene_id) %>%
+GenomicRanges::mcols(human.genes) <- tibble(gene_id=human.genes$gene_id) %>%
   left_join(tibble(as.data.frame(org.Hs.egSYMBOL)))
 
 # subset by cancer gene cencus amps
-cencus.amps.genes = human.genes[(elementMetadata(human.genes)[,'symbol'] %in% cencus.amps$symbol)]
+cencus.amps.genes <- human.genes[(elementMetadata(human.genes)[,'symbol'] %in% cencus.amps$symbol)]
 ```
 
 Filter copy number for high level events, then subset by overlap with gene regions.  The SOX2 gene is amplified.
 
 ```{r}
-subset.gr = cn_clust %>% filter(copy > 10) %>% makeGRangesFromDataFrame(keep.extra.columns=TRUE,ignore.strand=TRUE)
-subset.genes = subsetByOverlaps(cencus.amps.genes, subset.gr)
+subset.gr <- cn_clust %>% filter(copy > 10) %>% makeGRangesFromDataFrame(keep.extra.columns=TRUE,ignore.strand=TRUE)
+subset.genes <- subsetByOverlaps(cencus.amps.genes, subset.gr)
 subset.genes
 ```
 
 Overlapping the SOX2 region with all cluster copy number we find that SOX2 is subclonally amplified.
 
 ```{r}
-all.gr = cn_clust %>% makeGRangesFromDataFrame(keep.extra.columns=TRUE,ignore.strand=TRUE)
+all.gr <- cn_clust %>% makeGRangesFromDataFrame(keep.extra.columns=TRUE,ignore.strand=TRUE)
 subsetByOverlaps(all.gr, subset.genes) %>%
   as_tibble() %>%
   ggplot() + geom_col(aes(x=factor(cluster), y=copy))

@@ -229,19 +229,19 @@ cn %&gt;% head()</code></pre>
 <h2>Copy number exploration</h2>
 <p>We will plot cells using a scatter plot of normalized binned read count data. The data has been processed through HMMCopy analysis as part of the DLP single cell pipeline. The state column contains the prediction of integer copy number state for each cell. The copy column is raw read count normalized for ploidy, gc, and mappability. We will plot copy on the y axis and color by state, and wrap the plotting code in a function for use below.</p>
 <pre class="r"><code>plot_profile &lt;- function(cn) {
-  cols &lt;- c(rev(brewer.pal(n = 3, &quot;Blues&quot;))[1:2], &quot;#CCCCCC&quot;, tail(brewer.pal(n = 8, &quot;OrRd&quot;), 6))
-  cols &lt;- c(cols, cols[c(9, 9, 9, 9)])
-  names(cols) &lt;- 0:12
+  cn.colors &lt;- c(rev(brewer.pal(n = 3, &quot;Blues&quot;))[1:2], &quot;#CCCCCC&quot;, tail(brewer.pal(n = 8, &quot;OrRd&quot;), 6))
+  cn.colors &lt;- c(cn.colors, cn.colors[c(9, 9, 9, 9)])
+  names(cn.colors) &lt;- 0:12
 
   cn %&gt;%
-    mutate(cn_state = factor(state, names(cols))) %&gt;%
+    mutate(cn_state = factor(state, names(cn.colors))) %&gt;%
     mutate(chr = factor(chr, levels = c(1:22, &quot;X&quot;, &quot;Y&quot;))) %&gt;%
     ggplot() +
     geom_point(mapping = aes(x = start, y = copy, colour = cn_state), size = 0.5) +
     facet_grid(~chr, scales = &quot;free_x&quot;, space=&quot;free_x&quot;, switch = &quot;x&quot;) +
     theme(panel.spacing = unit(0.05, &quot;cm&quot;)) +
     scale_x_continuous(breaks = c()) +
-    scale_color_manual(values = cols, labels = names(cols), drop = FALSE) +
+    scale_color_manual(values = cn.colors, labels = names(cn.colors), drop = FALSE) +
     scale_y_continuous(breaks = seq(0, 8, by = 1), limit = c(0, 8)) +
     xlab(&#39;chromosome&#39;)
 }
@@ -293,14 +293,14 @@ plot_cell &lt;- function(cn, plot_cell_id) {
   })
   
   #the main heatmap
-  cols &lt;- c(rev(brewer.pal(n = 3, &quot;Blues&quot;))[1:2], &quot;#CCCCCC&quot;, tail(brewer.pal(n = 8, &quot;OrRd&quot;), 6))
-  cols &lt;- c(cols, cols[c(9, 9, 9, 9)])
-  names(cols) &lt;- 0:12
+  cn.colors &lt;- c(rev(brewer.pal(n = 3, &quot;Blues&quot;))[1:2], &quot;#CCCCCC&quot;, tail(brewer.pal(n = 8, &quot;OrRd&quot;), 6))
+  cn.colors &lt;- c(cn.colors, cn.colors[c(9, 9, 9, 9)])
+  names(cn.colors) &lt;- 0:12
 
   hm = ComplexHeatmap::Heatmap(
     matrix = mat,
     name = &quot;ploidy&quot;,
-    col = cols,
+    col = cn.colors,
     cluster_rows = hr,
     cluster_columns = FALSE,
     show_row_names = FALSE,
@@ -471,14 +471,14 @@ ggplot(sil.data, aes(x=cluster, y=width, colour=closest)) +
   ha_row = ComplexHeatmap::rowAnnotation(cluster = factor(sorted_clust), col = list(cluster = cluster_colors))
 
   # the main heatmap
-  cols &lt;- c(rev(brewer.pal(n = 3, &quot;Blues&quot;))[1:2], &quot;#CCCCCC&quot;, tail(brewer.pal(n = 8, &quot;OrRd&quot;), 6))
-  cols &lt;- c(cols, cols[c(9, 9, 9, 9)])
-  names(cols) &lt;- 0:12
+  cn.colors &lt;- c(rev(brewer.pal(n = 3, &quot;Blues&quot;))[1:2], &quot;#CCCCCC&quot;, tail(brewer.pal(n = 8, &quot;OrRd&quot;), 6))
+  cn.colors &lt;- c(cn.colors, cn.colors[c(9, 9, 9, 9)])
+  names(cn.colors) &lt;- 0:12
 
   hm = ComplexHeatmap::Heatmap(
     matrix = mat,
     name = &quot;ploidy&quot;,
-    col = cols,
+    col = cn.colors,
     cluster_rows = FALSE,
     cluster_columns = FALSE,
     show_row_names = FALSE,
