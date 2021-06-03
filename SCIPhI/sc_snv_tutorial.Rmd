@@ -17,8 +17,6 @@ This tutorial will rely heavily on the [tidyverse](https://www.tidyverse.org/) p
 library(tidyverse)
 library(ggtree)
 library(phytools)
-library(ape)
-library(dendextend)
 library(vcfR)
 library(phylogram)
 ```
