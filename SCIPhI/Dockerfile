@@ -7,4 +7,5 @@ RUN git clone --recurse-submodules https://github.com/amcpherson/SCIPhI.git
 WORKDIR SCIPhI
 RUN mkdir build && cd build && cmake .. && cmake --build . --config Release
 
+ENTRYPOINT ["/SCIPhI/build/sciphi"]
 
