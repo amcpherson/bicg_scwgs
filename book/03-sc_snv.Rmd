@@ -1,0 +1,198 @@
+---
+title: "Single Cell SNV Analysis"
+output:
+  html_document:
+    df_print: paged
+---
+
+# Targeted SNV Sequencing of an ALL Sample
+
+## Introduction
+
+In this tutorial we will analyze targeted single cell sequencing data from a patient with Acute Lymphoblastic Leukemia.  The data was generated as part of a study of six ALL patients (see [Gawad et al.](https://www.pnas.org/content/111/50/17947)).  The data we will analyze corresponds to "Patient 3" from that paper.  The data was also reanalyzed by [Singer et al.](https://www.nature.com/articles/s41467-018-07627-7) to showcase their novel phylogenetic method SCIPhI.  We have used pipelines provided alongside the [SCIPhI code](https://github.com/cbg-ethz/SCIPhI) to generate a table of mutation data and a predicted phylogenetic tree.
+
+## Load the required packages
+
+This tutorial will rely heavily on the [tidyverse](https://www.tidyverse.org/) packages including [ggplot2](https://ggplot2.tidyverse.org/).  Heatmap plotting will use [ComplexHeatmap](https://jokergoo.github.io/ComplexHeatmap-reference/book/).
+
+```{r echo=TRUE, warning = FALSE, message = FALSE}
+library(tidyverse)
+library(ggtree)
+library(phytools)
+library(vcfR)
+library(phylogram)
+```
+
+## Read the data
+
+The SCIPhI pipeline produced an mpileup.  We have further processed this data using `samtools` and `bcftools` to produce a multi-sample VCF.  The VCF can be read into a dataframe using the `vcfR` package.  We will read the vcf, then extract the total read count and variant read counts (DP and DV in the vcf).  We will put the data into 'tidy' format and merge. 
+
+```{r}
+vcf_filename = "cell_variants.vcf"
+vcf <- read.vcfR(vcf_filename, verbose = TRUE)
+
+total_count <- extract.gt(vcf, element = 'DP', as.numeric = TRUE) %>%
+  as_tibble(rownames='position') %>%
+  pivot_longer(!position, names_to = "cell_id", values_to = "total_count")
+
+variant_count <- extract.gt(vcf, element = 'DV', as.numeric = TRUE) %>%
+  as_tibble(rownames='position') %>%
+  pivot_longer(!position, names_to = "cell_id", values_to = "variant_count")
+
+read_counts <- full_join(total_count, variant_count)
+
+knitr::kable(head(read_counts), booktabs = TRUE)
+```
+
+## Data QC
+
+Poor performing cells will have consistently low depth (total read count) across all positions.  Plot a boxplot of log transformed total read count, ordering by mean total read count for readability.
+
+```{r}
+ggplot(read_counts, aes(x=reorder(cell_id, total_count+1, FUN = median), y=total_count+1)) +
+  geom_boxplot() + scale_y_continuous(trans='log10') +
+  scale_x_discrete(labels = NULL, breaks = NULL) + labs(x = "")
+```
+
+The left side of the plot show several poor quality cells.  A plot of mean total read count confirms there are outlier cells.  Filter these cells using a threshold of 400 mean total read count. 
+
+```{r}
+mean_total_counts <- read_counts %>%
+  group_by(cell_id) %>%
+  summarise(
+    mean_total_counts = mean(total_count)
+  )
+
+ggplot(mean_total_counts) +
+  geom_histogram(aes(x=mean_total_counts), bins=30)
+
+filtered_read_counts <- read_counts %>%
+  inner_join(
+    mean_total_counts %>%
+    filter(mean_total_counts > 400))
+```
+
+Identify poor performing variant positions characterized by low depth across all cells.  A caveat to this plot is that low total depth may be caused by copy number change.  Most variants appear to perform well in this dataset.
+
+```{r}
+ggplot(filtered_read_counts, aes(y=reorder(position, total_count+1, FUN = median), x=total_count+1)) +
+  geom_boxplot() + scale_x_continuous(trans='log10') + ylab("position")
+```
+
+Identify consistently low vaf variant positions likely to not exist at all in the cell population.
+
+```{r}
+filtered_read_counts %>%
+  mutate(vaf = (variant_count) / (total_count)) %>%
+  replace_na(list(vaf=0)) %>%
+    ggplot(aes(y=reorder(position, vaf, FUN = mean), x=vaf)) +
+    geom_boxplot() + ylab("variant")
+```
+
+## Heatmap plots
+
+Heatmap plots of a matrix of cell by variant data will show how cells cluster into subpopulations, and variants cluster by their shared evolutionary history.  Convert the filtered read counts to a matrix of variant allele frequency.  Black denotes cells with no data, instances where we failed to sequence reads for a variant in the given cell.  Note the block structure due to the clonal populations with shared variants.  However, also note that within each block there is a considerable amount of noise with many variants having a lower than expected VAF.  This is very likely the results of allelic dropout.
+
+Note there appears to be a poor quality position at `chr11_48347394`, in the middle of the heatmap.
+
+```{r}
+mat <- filtered_read_counts %>%
+  mutate(vaf = variant_count / total_count) %>%
+  dplyr::select(c("position", "cell_id", "vaf")) %>%
+  pivot_wider(names_from=cell_id, values_from=vaf) %>%
+  column_to_rownames("position") %>%
+  as.matrix()
+
+row_hr <- hclust(dist(mat), method = "average")
+row_hr = as.dendrogram(row_hr)
+
+column_hr <- hclust(dist(t(mat)), method = "average")
+column_hr = as.dendrogram(column_hr)
+
+ComplexHeatmap::Heatmap(
+  mat,
+  name="VAF",
+  cluster_rows=row_hr,
+  cluster_columns=column_hr,
+  na_col="black",
+  show_row_names=FALSE,
+  show_column_names=FALSE,
+)
+```
+
+It can be instructive to also plot total read count as this gives an approximate estimate of total copy number.  Try to identify the variants in regions of low copy number that are also homozygous (VAF 1) as determined from the plot above.
+
+```{r}
+mat <- filtered_read_counts %>%
+  dplyr::select(c("position", "cell_id", "total_count")) %>%
+  pivot_wider(names_from=cell_id, values_from=total_count) %>%
+  column_to_rownames("position") %>%
+  as.matrix()
+
+ComplexHeatmap::Heatmap(
+  mat,
+  name="Depth",
+  cluster_rows=row_hr,
+  cluster_columns=column_hr,
+  na_col="black",
+  show_row_names=FALSE,
+  show_column_names=FALSE,
+)
+```
+
+## SCIΦ Phylogeny
+
+SCIΦ is a method for jointly calling mutations in individual cells and estimating the phylogeny relating those cells.  The method uses MCMC sampling to genotype mutations and predict a tree and is robust to high drop-out and missing data.  The input to SCIΦ is an mpileup file produced by `samtools`.  SCIΦ has been run for you on the Patient 3 data.  The output os a tree in dot format, a vcf of mutation genotypes per cell and a table of posterior genotype probabilities per cell per mutation.
+
+Some wrangling was required to convert from dot format to a format that can be read by R (newick).  Read in the resulting newick file and plot using ggtree.  Note that the tree has no branch length information as this is not part of the SCIΦ model.
+
+```{r}
+# Read the tree as a dendrogram object
+sciphi.tree <- read.dendrogram("exp_short_tree.newick")
+
+# Show a plot of the tree
+ggtree(read.newick("exp_short_tree.newick"))
+```
+
+We will plot the predicted tree together with the heatmap.  To do so we will have to reorder the columns of the heatmap to coincide with the order of the leaves of the tree.  The matrix has columns labeled by cell_id.  The tree has nodes labeled by a node label.  We will need to create a mapping between these two.  A table of node information will help as it contains cell ids for nodes that are leaves.  Read in a table of node information, extract a node to cell mapping and use that to create a cell_id ordering that matches the tree.
+
+```{r}
+# Read the table of node information
+sciphi.nodes <- read_csv("exp_short_nodes.csv")
+
+# Create a table mapping 'node' to cell_id
+leaf_cell_nodes <- sciphi.nodes %>%
+  filter(is_leaf) %>%
+  dplyr::select(cell_id, node) %>%
+  mutate(node = as.character(node)) %>%
+  column_to_rownames("node")
+
+# Identify the order of nodes in the dendrogram
+leaf_cell_order = leaf_cell_nodes[labels(sciphi.tree), "cell_id"]
+```
+
+The tree contains all cells, thus we will use the full dataset to construct a matrix for the heatmap.  Re-order the columns of the matrix according to the tree, then use the tree dendrogram object in our call to `ComplexHeatmap::Heatmap`.  Look for noteable differences from the hierarchical clustering dendrogram above.
+
+```{r}
+# Re-create the matrix of vaf with all cells and variants
+mat <- read_counts %>%
+  mutate(vaf = variant_count / total_count) %>%
+  dplyr::select(c("position", "cell_id", "vaf")) %>%
+  pivot_wider(names_from=cell_id, values_from=vaf) %>%
+  column_to_rownames("position") %>%
+  as.matrix()
+
+# Reorder the matrix according to the tree
+mat = mat[, leaf_cell_order]
+
+ComplexHeatmap::Heatmap(
+  mat,
+  name = "VAF",
+  cluster_rows = TRUE,
+  cluster_columns = sciphi.tree,
+  show_row_names=FALSE,
+  show_column_names=FALSE,
+)
+```
+
+
