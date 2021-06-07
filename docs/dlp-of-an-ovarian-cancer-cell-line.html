@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 DLP of an Ovarian Cancer Cell Line | Single Cell DNA Analysis Lab</title>
+  <meta name="description" content="This is the lab practical for a module on single cell DNA analysis for the CBW Cancer Analysis Workshop" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 DLP of an Ovarian Cancer Cell Line | Single Cell DNA Analysis Lab" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is the lab practical for a module on single cell DNA analysis for the CBW Cancer Analysis Workshop" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 DLP of an Ovarian Cancer Cell Line | Single Cell DNA Analysis Lab" />
+  
+  <meta name="twitter:description" content="This is the lab practical for a module on single cell DNA analysis for the CBW Cancer Analysis Workshop" />
+  
+
+<meta name="author" content="Andrew McPherson" />
+
+
+<meta name="date" content="2021-06-06" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="targeted-snv-sequencing-of-an-all-sample.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Single Cell DNA Analysis Lab</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Lab Overview</a></li>
+<li class="chapter" data-level="2" data-path="dlp-of-an-ovarian-cancer-cell-line.html"><a href="dlp-of-an-ovarian-cancer-cell-line.html"><i class="fa fa-check"></i><b>2</b> DLP of an Ovarian Cancer Cell Line</a><ul>
+<li class="chapter" data-level="2.1" data-path="dlp-of-an-ovarian-cancer-cell-line.html"><a href="dlp-of-an-ovarian-cancer-cell-line.html#introduction"><i class="fa fa-check"></i><b>2.1</b> Introduction</a></li>
+<li class="chapter" data-level="2.2" data-path="dlp-of-an-ovarian-cancer-cell-line.html"><a href="dlp-of-an-ovarian-cancer-cell-line.html#load-the-required-packages"><i class="fa fa-check"></i><b>2.2</b> Load the required packages</a></li>
+<li class="chapter" data-level="2.3" data-path="dlp-of-an-ovarian-cancer-cell-line.html"><a href="dlp-of-an-ovarian-cancer-cell-line.html#read-and-qc-the-copy-number-data"><i class="fa fa-check"></i><b>2.3</b> Read and QC the copy number data</a></li>
+<li class="chapter" data-level="2.4" data-path="dlp-of-an-ovarian-cancer-cell-line.html"><a href="dlp-of-an-ovarian-cancer-cell-line.html#copy-number-exploration"><i class="fa fa-check"></i><b>2.4</b> Copy number exploration</a></li>
+<li class="chapter" data-level="2.5" data-path="dlp-of-an-ovarian-cancer-cell-line.html"><a href="dlp-of-an-ovarian-cancer-cell-line.html#clustering"><i class="fa fa-check"></i><b>2.5</b> Clustering</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="targeted-snv-sequencing-of-an-all-sample.html"><a href="targeted-snv-sequencing-of-an-all-sample.html"><i class="fa fa-check"></i><b>3</b> Targeted SNV Sequencing of an ALL Sample</a><ul>
+<li class="chapter" data-level="3.1" data-path="targeted-snv-sequencing-of-an-all-sample.html"><a href="targeted-snv-sequencing-of-an-all-sample.html#introduction-1"><i class="fa fa-check"></i><b>3.1</b> Introduction</a></li>
+<li class="chapter" data-level="3.2" data-path="targeted-snv-sequencing-of-an-all-sample.html"><a href="targeted-snv-sequencing-of-an-all-sample.html#load-the-required-packages-1"><i class="fa fa-check"></i><b>3.2</b> Load the required packages</a></li>
+<li class="chapter" data-level="3.3" data-path="targeted-snv-sequencing-of-an-all-sample.html"><a href="targeted-snv-sequencing-of-an-all-sample.html#read-the-data"><i class="fa fa-check"></i><b>3.3</b> Read the data</a></li>
+<li class="chapter" data-level="3.4" data-path="targeted-snv-sequencing-of-an-all-sample.html"><a href="targeted-snv-sequencing-of-an-all-sample.html#data-qc"><i class="fa fa-check"></i><b>3.4</b> Data QC</a></li>
+<li class="chapter" data-level="3.5" data-path="targeted-snv-sequencing-of-an-all-sample.html"><a href="targeted-snv-sequencing-of-an-all-sample.html#heatmap-plots"><i class="fa fa-check"></i><b>3.5</b> Heatmap plots</a></li>
+<li class="chapter" data-level="3.6" data-path="targeted-snv-sequencing-of-an-all-sample.html"><a href="targeted-snv-sequencing-of-an-all-sample.html#sciφ-phylogeny"><i class="fa fa-check"></i><b>3.6</b> SCIΦ Phylogeny</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Single Cell DNA Analysis Lab</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="dlp-of-an-ovarian-cancer-cell-line" class="section level1">
+<h1><span class="header-section-number">Chapter 2</span> DLP of an Ovarian Cancer Cell Line</h1>
+<div id="introduction" class="section level2">
+<h2><span class="header-section-number">2.1</span> Introduction</h2>
+<p>In this tutorial we will analyze the OV2295 cell line DLP data from the paper “Clonal Decomposition and DNA Replication States Defined by Scaled Single-Cell Genome Sequencing”, Laks et al. (2019) <a href="https://doi.org/10.1016/j.cell.2019.10.026" class="uri">https://doi.org/10.1016/j.cell.2019.10.026</a>. The OV2295 cell lines were generated from a primary, metastasis and relapse specimens obtained from a patient with high grade serous ovarian cancer (see Létourneau et al. (2012), <a href="https://doi.org/10.1186/1471-2407-12-379" class="uri">https://doi.org/10.1186/1471-2407-12-379</a>). The cell lines have a high degree of genomic instability, and significant genomic heterogeneity including with respect to large chromosomal changes. The data from the Laks et al. paper is deposited in zenodo (<a href="https://doi.org/10.5281/zenodo.3445364" class="uri">https://doi.org/10.5281/zenodo.3445364</a>).</p>
+</div>
+<div id="load-the-required-packages" class="section level2">
+<h2><span class="header-section-number">2.2</span> Load the required packages</h2>
+<p>This tutorial will rely heavily on the <a href="https://www.tidyverse.org/">tidyverse</a> packages including <a href="https://ggplot2.tidyverse.org/">ggplot2</a>. Heatmap plotting will use <a href="https://jokergoo.github.io/ComplexHeatmap-reference/book/">ComplexHeatmap</a> and manipulation of genomic segment data will be done with <a href="https://bioconductor.org/packages/release/bioc/vignettes/GenomicRanges/inst/doc/GenomicRangesIntroduction.html">GenomicRanges</a>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(RColorBrewer)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">library</span>(vroom)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">library</span>(ggExtra)</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw">library</span>(grid)</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw">library</span>(factoextra)</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="kw">library</span>(igraph)</a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="kw">library</span>(bluster)</a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="kw">library</span>(ggbeeswarm)</a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="kw">library</span>(umap)</a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="kw">library</span>(cluster)</a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="kw">library</span>(Homo.sapiens)</a>
+<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="kw">library</span>(ggpubr)</a></code></pre></div>
+</div>
+<div id="read-and-qc-the-copy-number-data" class="section level2">
+<h2><span class="header-section-number">2.3</span> Read and QC the copy number data</h2>
+<p>This data is available from zenodo and can be downloaded with:
+<code>wget &quot;https://zenodo.org/record/3445364/files/ov2295_cell_cn.csv.gz&quot;</code>
+<code>wget &quot;https://zenodo.org/record/3445364/files/ov2295_cell_metrics.csv.gz&quot;</code></p>
+<p>The data was analyzed using the DLP single_cell_pipeline: <a href="https://github.com/shahcompbio/single_cell_pipeline" class="uri">https://github.com/shahcompbio/single_cell_pipeline</a>.</p>
+<p>We will first read the metrics data, assess the quality of the cells and filter where necessary. The metrics file provided by the many columns but we will focus on quality and total_reads for filtering. Quality is calculated using a classifier trained on manually curated cell quality calls and uses many of the other metrics as features.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">metrics &lt;-<span class="st"> </span><span class="kw">vroom</span>(<span class="st">&quot;ov2295_cell_metrics.csv.gz&quot;</span>)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">metrics <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">head</span>()</a></code></pre></div>
+<pre><code>## # A tibble: 6 x 55
+##   cell_id      unpaired_mapped_r… paired_mapped_rea… unpaired_duplicat… paired_duplicate_… unmapped_reads percent_duplicate…
+##   &lt;chr&gt;                     &lt;dbl&gt;              &lt;dbl&gt;              &lt;dbl&gt;              &lt;dbl&gt;          &lt;dbl&gt;              &lt;dbl&gt;
+## 1 SA922-A9055…              70068            2462814              19418             711792         352397             0.290 
+## 2 SA922-A9055…              49767            2723310              19848             701345         588432             0.261 
+## 3 SA922-A9055…               1113               5605                198                 70        1261949             0.0281
+## 4 SA922-A9055…             113421            5554326              44742            1636879         905778             0.297 
+## 5 SA922-A9055…               1054              20043                 25                608         567186             0.0319
+## 6 SA922-A9055…               1545              30598                171               1752        1469497             0.0605
+## # … with 48 more variables: estimated_library_size &lt;dbl&gt;, total_reads &lt;dbl&gt;, total_mapped_reads &lt;dbl&gt;,
+## #   total_duplicate_reads &lt;dbl&gt;, total_properly_paired &lt;dbl&gt;, coverage_breadth &lt;dbl&gt;, coverage_depth &lt;dbl&gt;,
+## #   median_insert_size &lt;dbl&gt;, mean_insert_size &lt;dbl&gt;, standard_deviation_insert_size &lt;dbl&gt;, index_sequence &lt;chr&gt;,
+## #   column &lt;dbl&gt;, img_col &lt;dbl&gt;, index_i5 &lt;chr&gt;, sample_type &lt;chr&gt;, primer_i7 &lt;chr&gt;, experimental_condition &lt;chr&gt;,
+## #   index_i7 &lt;chr&gt;, cell_call &lt;chr&gt;, sample_id &lt;chr&gt;, primer_i5 &lt;chr&gt;, row &lt;dbl&gt;, library_id &lt;chr&gt;, index &lt;dbl&gt;,
+## #   multiplier &lt;dbl&gt;, MSRSI_non_integerness &lt;dbl&gt;, MBRSI_dispersion_non_integerness &lt;dbl&gt;, MBRSM_dispersion &lt;dbl&gt;,
+## #   autocorrelation_hmmcopy &lt;dbl&gt;, cv_hmmcopy &lt;dbl&gt;, empty_bins_hmmcopy &lt;dbl&gt;, mad_hmmcopy &lt;dbl&gt;,
+## #   mean_hmmcopy_reads_per_bin &lt;dbl&gt;, median_hmmcopy_reads_per_bin &lt;dbl&gt;, std_hmmcopy_reads_per_bin &lt;dbl&gt;,
+## #   total_mapped_reads_hmmcopy &lt;dbl&gt;, total_halfiness &lt;dbl&gt;, scaled_halfiness &lt;dbl&gt;, mean_state_mads &lt;dbl&gt;,
+## #   mean_state_vars &lt;dbl&gt;, mad_neutral_state &lt;dbl&gt;, breakpoints &lt;dbl&gt;, mean_copy &lt;dbl&gt;, state_mode &lt;dbl&gt;,
+## #   log_likelihood &lt;dbl&gt;, true_multiplier &lt;dbl&gt;, quality &lt;dbl&gt;, order &lt;dbl&gt;</code></pre>
+<p>Plot a scatterplot of quality by total reads with marginals on the axes. The cloud of cells with significant read count and quality less than 0.75 are cells for which we cannot effectively predict copy number. These cells could either be cycling, or for which the genomic DNA degraded significantly prior to sequencing, or for which tagmentation failed.</p>
+<p>The plots in this notebook will be using ggplot extensively. I recommend the r4ds tutorials (<a href="https://r4ds.had.co.nz/data-visualisation.html" class="uri">https://r4ds.had.co.nz/data-visualisation.html</a>) and the ggplot cheat sheet (<a href="https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf" class="uri">https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf</a>) for further reference.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">p &lt;-<span class="st"> </span>metrics <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="st">  </span><span class="kw">ggplot</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>quality, <span class="dt">y=</span>total_reads)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;left&quot;</span>)</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="kw">ggMarginal</span>(p, <span class="dt">type=</span><span class="st">&quot;histogram&quot;</span>)</a></code></pre></div>
+<p><img src="book_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>Filter reads based on a quality threshold of 0.85 and a total read count threshold of 500k reads. Also filter control cells based on the experimental_condition and sample_id columns.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">metrics &lt;-<span class="st"> </span>metrics <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">  quality <span class="op">&gt;=</span><span class="st"> </span><span class="fl">0.85</span>,</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">  total_reads <span class="op">&gt;</span><span class="st"> </span><span class="dv">500000</span>,</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">  <span class="op">!</span>(experimental_condition <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;GM&quot;</span>, <span class="st">&quot;gDNA&quot;</span>)),</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">  sample_id <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;SA1090&quot;</span>, <span class="st">&quot;SA921&quot;</span>, <span class="st">&quot;SA922&quot;</span>))</a></code></pre></div>
+<p>Read in the copy number data. Using vroom::vroom will significantly speed up data loading and using factors for chr and cell_id and ignoring irrelevant columns will reduce the memory footprint.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">cn &lt;-<span class="st"> </span><span class="kw">vroom</span>(</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">  <span class="st">&#39;ov2295_cell_cn.csv.gz&#39;</span>,</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">  <span class="dt">col_types =</span> <span class="kw">cols</span>(</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">    <span class="dt">chr =</span> <span class="kw">col_factor</span>(<span class="ot">NULL</span>),</a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">    <span class="dt">cell_id =</span> <span class="kw">col_factor</span>(<span class="ot">NULL</span>)</a>
+<a class="sourceLine" id="cb6-6" data-line-number="6">  ),</a>
+<a class="sourceLine" id="cb6-7" data-line-number="7">  <span class="dt">col_select =</span> <span class="kw">c</span>(</a>
+<a class="sourceLine" id="cb6-8" data-line-number="8">    chr,</a>
+<a class="sourceLine" id="cb6-9" data-line-number="9">    start,</a>
+<a class="sourceLine" id="cb6-10" data-line-number="10">    end,</a>
+<a class="sourceLine" id="cb6-11" data-line-number="11">    reads,</a>
+<a class="sourceLine" id="cb6-12" data-line-number="12">    copy,</a>
+<a class="sourceLine" id="cb6-13" data-line-number="13">    state,</a>
+<a class="sourceLine" id="cb6-14" data-line-number="14">    cell_id</a>
+<a class="sourceLine" id="cb6-15" data-line-number="15">  )</a>
+<a class="sourceLine" id="cb6-16" data-line-number="16">)</a></code></pre></div>
+<p>Subset copy number data by the filtered cell ids in the metrics table.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">cn &lt;-<span class="st"> </span>cn <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">inner_join</span>(metrics[, <span class="kw">c</span>(<span class="st">&quot;cell_id&quot;</span>, <span class="st">&quot;sample_id&quot;</span>)], <span class="dt">by =</span> <span class="st">&quot;cell_id&quot;</span>)</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">cn <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">head</span>()</a></code></pre></div>
+<pre><code>## # A tibble: 6 x 8
+##   chr     start     end reads  copy state cell_id               sample_id
+##   &lt;fct&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;                 &lt;chr&gt;    
+## 1 1           1  500000    22 NA        5 SA922-A90554B-R28-C09 SA922    
+## 2 1      500001 1000000   609 NA        5 SA922-A90554B-R28-C09 SA922    
+## 3 1     1000001 1500000   752  4.57     5 SA922-A90554B-R28-C09 SA922    
+## 4 1     1500001 2000000   672  3.47     5 SA922-A90554B-R28-C09 SA922    
+## 5 1     2000001 2500000   931  5.57     5 SA922-A90554B-R28-C09 SA922    
+## 6 1     2500001 3000000   794 NA        5 SA922-A90554B-R28-C09 SA922</code></pre>
+</div>
+<div id="copy-number-exploration" class="section level2">
+<h2><span class="header-section-number">2.4</span> Copy number exploration</h2>
+<p>We will plot cells using a scatter plot of normalized binned read count data. The data has been processed through HMMCopy analysis as part of the DLP single cell pipeline. The state column contains the prediction of integer copy number state for each cell. The copy column is raw read count normalized for ploidy, gc, and mappability. We will plot copy on the y axis and color by state, and wrap the plotting code in a function for use below.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">plot_profile &lt;-<span class="st"> </span><span class="cf">function</span>(cn) {</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">  cn.colors &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rev</span>(<span class="kw">brewer.pal</span>(<span class="dt">n =</span> <span class="dv">3</span>, <span class="st">&quot;Blues&quot;</span>))[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>], <span class="st">&quot;#CCCCCC&quot;</span>, <span class="kw">tail</span>(<span class="kw">brewer.pal</span>(<span class="dt">n =</span> <span class="dv">8</span>, <span class="st">&quot;OrRd&quot;</span>), <span class="dv">6</span>))</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">  cn.colors &lt;-<span class="st"> </span><span class="kw">c</span>(cn.colors, cn.colors[<span class="kw">c</span>(<span class="dv">9</span>, <span class="dv">9</span>, <span class="dv">9</span>, <span class="dv">9</span>)])</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">  <span class="kw">names</span>(cn.colors) &lt;-<span class="st"> </span><span class="dv">0</span><span class="op">:</span><span class="dv">12</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6">  cn <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">cn_state =</span> <span class="kw">factor</span>(state, <span class="kw">names</span>(cn.colors))) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">chr =</span> <span class="kw">factor</span>(chr, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">22</span>, <span class="st">&quot;X&quot;</span>, <span class="st">&quot;Y&quot;</span>))) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="st">    </span><span class="kw">ggplot</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="st">      </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> start, <span class="dt">y =</span> copy, <span class="dt">colour =</span> cn_state), <span class="dt">size =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="st">      </span><span class="kw">facet_grid</span>(<span class="op">~</span>chr, <span class="dt">scales =</span> <span class="st">&quot;free_x&quot;</span>, <span class="dt">space=</span><span class="st">&quot;free_x&quot;</span>, <span class="dt">switch =</span> <span class="st">&quot;x&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="st">      </span><span class="kw">theme</span>(<span class="dt">panel.spacing =</span> <span class="kw">unit</span>(<span class="fl">0.05</span>, <span class="st">&quot;cm&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb9-13" data-line-number="13"><span class="st">      </span><span class="kw">scale_x_continuous</span>(<span class="dt">breaks =</span> <span class="kw">c</span>()) <span class="op">+</span></a>
+<a class="sourceLine" id="cb9-14" data-line-number="14"><span class="st">      </span><span class="kw">scale_color_manual</span>(<span class="dt">values =</span> cn.colors, <span class="dt">labels =</span> <span class="kw">names</span>(cn.colors), <span class="dt">drop =</span> <span class="ot">FALSE</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb9-15" data-line-number="15"><span class="st">      </span><span class="kw">scale_y_continuous</span>(<span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">8</span>, <span class="dt">by =</span> <span class="dv">1</span>), <span class="dt">limit =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">8</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb9-16" data-line-number="16"><span class="st">      </span><span class="kw">xlab</span>(<span class="st">&#39;chromosome&#39;</span>)</a>
+<a class="sourceLine" id="cb9-17" data-line-number="17">}</a>
+<a class="sourceLine" id="cb9-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb9-19" data-line-number="19">plot_cell &lt;-<span class="st"> </span><span class="cf">function</span>(cn, plot_cell_id) {</a>
+<a class="sourceLine" id="cb9-20" data-line-number="20">  <span class="kw">filter</span>(cn, cell_id <span class="op">==</span><span class="st"> </span>plot_cell_id) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">plot_profile</span>()</a>
+<a class="sourceLine" id="cb9-21" data-line-number="21">}</a></code></pre></div>
+<p>The first cell we will plot is a near diploid cell with some amplified regions and many LOH regions including chromosome 17. The chromosome 17 LOH overlaps with a deliterious TP53 mutation, as is typical of high grade serous ovarian cancers.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">plot_cell</span>(cn, <span class="st">&quot;SA1090-A96213A-R30-C61&quot;</span>)</a></code></pre></div>
+<pre><code>## Warning: Removed 740 rows containing missing values (geom_point).</code></pre>
+<p><img src="book_files/figure-html/unnamed-chunk-8-1.png" width="672" />
+A second cell from the same cell line appears to be baseline tetraploid. Many of the amplified or deleted regions overlap with those of the diploid baseline cell. Copy 3 regions on chromosome 2 and 15 support the tetraploid solution.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">plot_cell</span>(cn, <span class="st">&quot;SA1090-A96213A-R28-C68&quot;</span>)</a></code></pre></div>
+<pre><code>## Warning: Removed 762 rows containing missing values (geom_point).</code></pre>
+<p><img src="book_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>It will be useful to plot all cells together in a heatmap for a high level look at the heterogeneity. Here we rely on the very useful <a href="https://jokergoo.github.io/ComplexHeatmap-reference/book/">ComplexHeatmap package</a>. The plot takes a GenomicRanges object with columns as cells and rows as regions. A nice tutorial on GenomicRanges can be found <a href="https://bioconductor.github.io/BiocWorkshops/solving-common-bioinformatic-challenges-using-genomicranges.html">here</a>. The plot will use hierarchical clustering to order the cells and provide a summary of the similarity between groups of cells.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">plot_heatmap &lt;-<span class="st"> </span><span class="cf">function</span>(gr, <span class="dt">dist_method =</span> <span class="st">&quot;euclidean&quot;</span>){</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">  <span class="co">#&#39; plot a heatmap with chromosome boundaries</span></a>
+<a class="sourceLine" id="cb14-3" data-line-number="3">  <span class="co">#&#39; the order of the rows can be customized here</span></a>
+<a class="sourceLine" id="cb14-4" data-line-number="4">  <span class="co">#&#39; its a simple distance based clustering</span></a>
+<a class="sourceLine" id="cb14-5" data-line-number="5">  <span class="co">#&#39;</span></a>
+<a class="sourceLine" id="cb14-6" data-line-number="6">  <span class="co">#&#39; Adapted from code published by Velazquez-Villarreal et al. (2020):</span></a>
+<a class="sourceLine" id="cb14-7" data-line-number="7">  <span class="co">#&#39; https://www.nature.com/articles/s42003-020-1044-8</span></a>
+<a class="sourceLine" id="cb14-8" data-line-number="8">  <span class="co">#&#39;</span></a>
+<a class="sourceLine" id="cb14-9" data-line-number="9">  <span class="co">#&#39; Uses the very useful ComplexHeatmap package:</span></a>
+<a class="sourceLine" id="cb14-10" data-line-number="10">  <span class="co">#&#39; https://jokergoo.github.io/ComplexHeatmap-reference/book/</span></a>
+<a class="sourceLine" id="cb14-11" data-line-number="11">  </a>
+<a class="sourceLine" id="cb14-12" data-line-number="12">  gr &lt;-<span class="st"> </span>GenomeInfoDb<span class="op">::</span><span class="kw">sortSeqlevels</span>(gr)</a>
+<a class="sourceLine" id="cb14-13" data-line-number="13">  gr &lt;-<span class="st"> </span><span class="kw">sort</span>(gr)</a>
+<a class="sourceLine" id="cb14-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb14-15" data-line-number="15">  mat &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(GenomicRanges<span class="op">::</span><span class="kw">mcols</span>(gr))</a>
+<a class="sourceLine" id="cb14-16" data-line-number="16">  mat &lt;-<span class="st"> </span><span class="kw">t</span>(mat)</a>
+<a class="sourceLine" id="cb14-17" data-line-number="17">  hr &lt;-<span class="st"> </span><span class="kw">hclust</span>(<span class="kw">get_dist</span>(mat, <span class="dt">method =</span> dist_method), <span class="dt">method =</span> <span class="st">&quot;average&quot;</span>)</a>
+<a class="sourceLine" id="cb14-18" data-line-number="18">  hr =<span class="st"> </span><span class="kw">as.dendrogram</span>(hr)</a>
+<a class="sourceLine" id="cb14-19" data-line-number="19">  </a>
+<a class="sourceLine" id="cb14-20" data-line-number="20">  <span class="co"># chromosome boundaries and midpoints for annotation</span></a>
+<a class="sourceLine" id="cb14-21" data-line-number="21">  chr_ids =<span class="st"> </span>GenomicRanges<span class="op">::</span><span class="kw">seqnames</span>(gr)<span class="op">@</span>values</a>
+<a class="sourceLine" id="cb14-22" data-line-number="22">  chr_lengths =<span class="st"> </span>GenomicRanges<span class="op">::</span><span class="kw">seqnames</span>(gr)<span class="op">@</span>lengths</a>
+<a class="sourceLine" id="cb14-23" data-line-number="23">  chr_props =<span class="st"> </span>chr_lengths <span class="op">/</span><span class="st"> </span><span class="kw">length</span>(gr)</a>
+<a class="sourceLine" id="cb14-24" data-line-number="24">  mids =<span class="st"> </span><span class="kw">cumsum</span>(chr_props) <span class="op">-</span><span class="st"> </span>(chr_props <span class="op">/</span><span class="st"> </span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb14-25" data-line-number="25">  boundaries =<span class="st"> </span><span class="kw">cumsum</span>(chr_props)</a>
+<a class="sourceLine" id="cb14-26" data-line-number="26">  boundaries =<span class="st"> </span>boundaries[<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(boundaries)<span class="op">-</span><span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb14-27" data-line-number="27">  abline_x =<span class="st"> </span><span class="kw">rep</span>(boundaries, <span class="dt">each=</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb14-28" data-line-number="28">  abline_y &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="dt">times=</span><span class="kw">length</span>(boundaries))</a>
+<a class="sourceLine" id="cb14-29" data-line-number="29">  abline_ids &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(boundaries),<span class="dt">each=</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb14-30" data-line-number="30"></a>
+<a class="sourceLine" id="cb14-31" data-line-number="31">  <span class="co">#annotation to label chromosomes</span></a>
+<a class="sourceLine" id="cb14-32" data-line-number="32">  ha_column =<span class="st"> </span>ComplexHeatmap<span class="op">::</span><span class="kw">HeatmapAnnotation</span>(<span class="dt">cn =</span> <span class="cf">function</span>(index) {</a>
+<a class="sourceLine" id="cb14-33" data-line-number="33">    <span class="kw">grid.text</span>(chr_ids,<span class="dt">x=</span>mids,<span class="dt">y=</span><span class="dv">1</span>,<span class="dt">just =</span> <span class="kw">c</span>(<span class="st">&quot;center&quot;</span>, <span class="st">&quot;top&quot;</span>),<span class="dt">gp=</span><span class="kw">gpar</span>(<span class="dt">col=</span><span class="st">&quot;#202020&quot;</span>,<span class="dt">fontsize=</span><span class="dv">6</span>))</a>
+<a class="sourceLine" id="cb14-34" data-line-number="34">  })</a>
+<a class="sourceLine" id="cb14-35" data-line-number="35">  </a>
+<a class="sourceLine" id="cb14-36" data-line-number="36">  <span class="co"># the main heatmap</span></a>
+<a class="sourceLine" id="cb14-37" data-line-number="37">  cn.colors &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rev</span>(<span class="kw">brewer.pal</span>(<span class="dt">n =</span> <span class="dv">3</span>, <span class="st">&quot;Blues&quot;</span>))[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>], <span class="st">&quot;#CCCCCC&quot;</span>, <span class="kw">tail</span>(<span class="kw">brewer.pal</span>(<span class="dt">n =</span> <span class="dv">8</span>, <span class="st">&quot;OrRd&quot;</span>), <span class="dv">6</span>))</a>
+<a class="sourceLine" id="cb14-38" data-line-number="38">  cn.colors &lt;-<span class="st"> </span><span class="kw">c</span>(cn.colors, cn.colors[<span class="kw">c</span>(<span class="dv">9</span>, <span class="dv">9</span>, <span class="dv">9</span>, <span class="dv">9</span>)])</a>
+<a class="sourceLine" id="cb14-39" data-line-number="39">  <span class="kw">names</span>(cn.colors) &lt;-<span class="st"> </span><span class="dv">0</span><span class="op">:</span><span class="dv">12</span></a>
+<a class="sourceLine" id="cb14-40" data-line-number="40"></a>
+<a class="sourceLine" id="cb14-41" data-line-number="41">  hm &lt;-<span class="st"> </span>ComplexHeatmap<span class="op">::</span><span class="kw">Heatmap</span>(</a>
+<a class="sourceLine" id="cb14-42" data-line-number="42">    <span class="dt">matrix =</span> mat,</a>
+<a class="sourceLine" id="cb14-43" data-line-number="43">    <span class="dt">name =</span> <span class="st">&quot;ploidy&quot;</span>,</a>
+<a class="sourceLine" id="cb14-44" data-line-number="44">    <span class="dt">col =</span> cn.colors,</a>
+<a class="sourceLine" id="cb14-45" data-line-number="45">    <span class="dt">cluster_rows =</span> hr,</a>
+<a class="sourceLine" id="cb14-46" data-line-number="46">    <span class="dt">cluster_columns =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb14-47" data-line-number="47">    <span class="dt">show_row_names =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb14-48" data-line-number="48">    <span class="dt">bottom_annotation =</span> ha_column,</a>
+<a class="sourceLine" id="cb14-49" data-line-number="49">    <span class="dt">column_title =</span> <span class="st">&quot;CNV heatmap&quot;</span>,</a>
+<a class="sourceLine" id="cb14-50" data-line-number="50">    <span class="dt">use_raster =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb14-51" data-line-number="51">  )</a>
+<a class="sourceLine" id="cb14-52" data-line-number="52">  </a>
+<a class="sourceLine" id="cb14-53" data-line-number="53">  ComplexHeatmap<span class="op">::</span><span class="kw">draw</span>(hm, <span class="dt">row_dend_side =</span> <span class="st">&quot;left&quot;</span>)</a>
+<a class="sourceLine" id="cb14-54" data-line-number="54"></a>
+<a class="sourceLine" id="cb14-55" data-line-number="55">  ComplexHeatmap<span class="op">::</span><span class="kw">decorate_heatmap_body</span>(<span class="st">&quot;ploidy&quot;</span>, {</a>
+<a class="sourceLine" id="cb14-56" data-line-number="56">    <span class="kw">grid.polyline</span>(</a>
+<a class="sourceLine" id="cb14-57" data-line-number="57">      <span class="dt">x =</span> abline_x,</a>
+<a class="sourceLine" id="cb14-58" data-line-number="58">      <span class="dt">y =</span> abline_y,</a>
+<a class="sourceLine" id="cb14-59" data-line-number="59">      <span class="dt">id =</span> abline_ids,</a>
+<a class="sourceLine" id="cb14-60" data-line-number="60">      <span class="dt">gp =</span> <span class="kw">gpar</span>(<span class="dt">lty =</span> <span class="dv">1</span>, <span class="dt">lwd =</span> <span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb14-61" data-line-number="61">  })</a>
+<a class="sourceLine" id="cb14-62" data-line-number="62">}</a></code></pre></div>
+<p>Plotting SA1090 (the primary sample), we can see that there are two major groups, a baseline diploid and a baseline tetraploid group. Both groups harbour additional heterogeneity. Looking closely, it appears that many of the patterns that distinguish populations within the diploid group are also found in the tetraploid group.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">gr &lt;-<span class="st"> </span>cn <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(sample_id <span class="op">==</span><span class="st"> &quot;SA1090&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(chr, start, end, state, cell_id) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb15-4" data-line-number="4"><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> cell_id, <span class="dt">values_from =</span> state) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb15-5" data-line-number="5"><span class="st">  </span>GenomicRanges<span class="op">::</span><span class="kw">makeGRangesFromDataFrame</span>(<span class="dt">keep.extra.columns=</span><span class="ot">TRUE</span>,<span class="dt">ignore.strand=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb15-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb15-7" data-line-number="7"><span class="kw">plot_heatmap</span>(gr)</a></code></pre></div>
+<p><img src="book_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>The default distance method for generating the hierarchical clustering was eucldean, which will naturally result in large distances between diploid and tetraploid cells. Alternative distance methods can be specified, see the get_dist function from <a href="https://www.rdocumentation.org/packages/factoextra/versions/1.0.7/topics/dist">factoextras</a>. If we use pearson correlation as the distance method, we see significant mixing of the diploid and tetraploid populations indicating that tetraploidization is occuring independently and sporadically throughout the population.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">plot_heatmap</span>(gr, <span class="dt">dist_method =</span> <span class="st">&quot;pearson&quot;</span>)</a></code></pre></div>
+<p><img src="book_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>If we plot total_reads by mean_copy (average ploidy) there appears to be a relationship, likely due to the fact that tetraploid cells will have twice the DNA available and take up more sequencing realestate. Classifying diploid and tetraploid, the difference in mean total_reads is highly significant, further evidence the tetraploid cells are truly tetraploid. Some cells classified as diploid may in fact be tetraploid with a perfect doubling of all chromosomes though this would be difficult to determine without orthogonal experiments. Note that we havent ruled out doublets with certainty.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">metrics <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb17-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(sample_id <span class="op">==</span><span class="st"> &quot;SA1090&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb17-3" data-line-number="3"><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>mean_copy, <span class="dt">y=</span>total_reads)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb17-4" data-line-number="4"><span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">method=</span><span class="st">&#39;lm&#39;</span>, <span class="dt">formula=</span> y<span class="op">~</span>x)</a></code></pre></div>
+<p><img src="book_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">metrics <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb18-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(sample_id <span class="op">==</span><span class="st"> &quot;SA1090&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb18-3" data-line-number="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">is_polyploid =</span> mean_copy <span class="op">&gt;</span><span class="st"> </span><span class="fl">2.5</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb18-4" data-line-number="4"><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>is_polyploid, <span class="dt">y=</span>total_reads)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_boxplot</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb18-5" data-line-number="5"><span class="st">    </span><span class="kw">stat_compare_means</span>(<span class="dt">label.x =</span> <span class="fl">1.3</span>)</a></code></pre></div>
+<p><img src="book_files/figure-html/unnamed-chunk-13-2.png" width="672" /></p>
+</div>
+<div id="clustering" class="section level2">
+<h2><span class="header-section-number">2.5</span> Clustering</h2>
+<p>In order to further understand the population structure we can cluster the cells by their copy number profiles. It is worth noting that for some datasets, clustering is inappropriate. If the population of cells is continuously evolving and accruing neutral copy number changes, the cells will lie on a continuum of copy number change. Any maximal set of related cells could be considered a ‘cluster’ if a copy number change exists specific to that set of cells. In such a case phylogenetic representation is more appropriate. However, in many real datasets sets of cells will cluster due to either selection having favoured the expansion of some cell populations and the extinction of others.</p>
+<p>We will first cluster the cells using k-means. Independent segmentation of each cell using HMMCopy can produce small differences in segment boundaries that may affect clustering. We will thus cluster based on the raw copy number (‘copy’ column) instead of the HMMCopy state. Start by creating a matrix of raw copy number values, filtering bins with NaNs in any cell and scaling the data to allow clustering of cells with dissimilar ploidy.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">gr &lt;-<span class="st"> </span>cn <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(chr, start, end, copy, cell_id) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb19-3" data-line-number="3"><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> cell_id, <span class="dt">values_from =</span> copy) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb19-4" data-line-number="4"><span class="st">  </span>GenomicRanges<span class="op">::</span><span class="kw">makeGRangesFromDataFrame</span>(<span class="dt">keep.extra.columns=</span><span class="ot">TRUE</span>,<span class="dt">ignore.strand=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb19-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb19-6" data-line-number="6"><span class="co"># Remove bins with any nan across any cell</span></a>
+<a class="sourceLine" id="cb19-7" data-line-number="7">gr &lt;-<span class="st"> </span>gr[<span class="kw">complete.cases</span>(GenomicRanges<span class="op">::</span><span class="kw">mcols</span>(gr))]</a>
+<a class="sourceLine" id="cb19-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb19-9" data-line-number="9"><span class="co"># Create matrix, remove bins that are nan across any cells</span></a>
+<a class="sourceLine" id="cb19-10" data-line-number="10">mat &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(GenomicRanges<span class="op">::</span><span class="kw">mcols</span>(gr))</a>
+<a class="sourceLine" id="cb19-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb19-12" data-line-number="12"><span class="co"># Optionally normalize the copy number, this will group cells regardless of ploidy</span></a>
+<a class="sourceLine" id="cb19-13" data-line-number="13">mat &lt;-<span class="st"> </span><span class="kw">scale</span>(mat)</a>
+<a class="sourceLine" id="cb19-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb19-15" data-line-number="15">mat &lt;-<span class="st"> </span><span class="kw">t</span>(mat)</a></code></pre></div>
+<p>We will then use PCA to transform the data to a reduced dimensionality representation. In bin level copy number data, many of the bins will be highly correlated especially with neighboring bins subject to the same copy number change. PCA will effectively compress multiple correlated bins into a single dimension. Working with the top PCA components will be desirable because it decreases the computational burden of downstream computation (ie clustering) and reduces noise by averaging across multiple bins. PCA can be run using the <code>prcomp</code> function:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">mat.pca &lt;-<span class="st"> </span><span class="kw">prcomp</span>(mat)</a></code></pre></div>
+<p>It can be informative to plot the PCA loadings of the top components. The loadings for a given component represent how much each bin contributes to that component. Large positive or negative values indicate a strong positive or negative correlation of the bin with the component respectively. Values close to 0 indicate the bin is uncorrelated with the component. The PCA loading plot can be helpful in identifying problematic noisy bins. These bins will show up as isolated spikes in the PCA loading plot. The first PCA plotted below looks unproblematic. Try setting the value of a bin to 1000 for a subset of cells and redoing the PCA to see the effect.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">pc =<span class="st"> &quot;PC1&quot;</span></a>
+<a class="sourceLine" id="cb21-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb21-3" data-line-number="3">gr.pca &lt;-<span class="st"> </span><span class="kw">granges</span>(gr)</a>
+<a class="sourceLine" id="cb21-4" data-line-number="4">GenomicRanges<span class="op">::</span><span class="kw">mcols</span>(gr.pca) &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">PC=</span>mat.pca<span class="op">$</span>rotation[, pc])</a>
+<a class="sourceLine" id="cb21-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb21-6" data-line-number="6">GenomicRanges<span class="op">::</span><span class="kw">as.data.frame</span>(gr.pca) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb21-7" data-line-number="7"><span class="st">  </span><span class="kw">tibble</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb21-8" data-line-number="8"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">rename</span>(<span class="dt">chr=</span>seqnames) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb21-9" data-line-number="9"><span class="st">    </span><span class="kw">ggplot</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb21-10" data-line-number="10"><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> start, <span class="dt">y =</span> PC), <span class="dt">size =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb21-11" data-line-number="11"><span class="st">    </span><span class="kw">facet_grid</span>(<span class="op">~</span>chr, <span class="dt">scales =</span> <span class="st">&quot;free_x&quot;</span>, <span class="dt">space=</span><span class="st">&quot;free_x&quot;</span>, <span class="dt">switch =</span> <span class="st">&quot;x&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb21-12" data-line-number="12"><span class="st">    </span><span class="kw">theme</span>(<span class="dt">panel.spacing =</span> <span class="kw">unit</span>(<span class="fl">0.05</span>, <span class="st">&quot;cm&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb21-13" data-line-number="13"><span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="dt">breaks =</span> <span class="kw">c</span>()) <span class="op">+</span></a>
+<a class="sourceLine" id="cb21-14" data-line-number="14"><span class="st">    </span><span class="kw">xlab</span>(<span class="st">&#39;chromosome&#39;</span>)</a></code></pre></div>
+<p><img src="book_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p>Now run k-means on the first 50 PCs. Use 12 cluster centers and 100 restarts and set a seed for consistency.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">42</span>)</a>
+<a class="sourceLine" id="cb22-2" data-line-number="2">clust.kmeans &lt;-<span class="st"> </span><span class="kw">kmeans</span>(mat.pca<span class="op">$</span>x[, <span class="dv">1</span><span class="op">:</span><span class="dv">50</span>], <span class="dt">centers=</span><span class="dv">12</span>, <span class="dt">nstart=</span><span class="dv">100</span>)</a>
+<a class="sourceLine" id="cb22-3" data-line-number="3">clust &lt;-<span class="st"> </span>clust.kmeans<span class="op">$</span>cluster</a></code></pre></div>
+<p>UMAP is a non-linear dimensionality reduction technique favoured for its ability to preserve much of the structure of the data in a 2-D plot. We can use UMAP to visualize the clustering.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">mat.umap &lt;-<span class="st"> </span><span class="kw">umap</span>(mat)</a>
+<a class="sourceLine" id="cb23-2" data-line-number="2">mat.umap.tbl &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">x=</span>mat.umap<span class="op">$</span>layout[,<span class="dv">1</span>], <span class="dt">y=</span>mat.umap<span class="op">$</span>layout[,<span class="dv">2</span>], <span class="dt">cluster=</span><span class="kw">factor</span>(clust))</a>
+<a class="sourceLine" id="cb23-3" data-line-number="3"><span class="kw">ggplot</span>(mat.umap.tbl) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span>x, <span class="dt">y=</span>y, <span class="dt">color=</span>cluster))</a></code></pre></div>
+<p><img src="book_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p>We can also assess the clustering using the silhouette method. Briefly, the <a href="https://en.wikipedia.org/wiki/Silhouette_(clustering)">silhouette width statistic</a> is calculated based on the mean distance of a datapoint to every other datapoint in the same cluster, and the mean distance to datapoints in the next closest cluster. A silhouette width less than 0 could indicate the cell may be better assigned to a different cluster, the cell is an outlier, or the data are not spherically distributed around cluster centers.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">sil.approx &lt;-<span class="st"> </span><span class="kw">approxSilhouette</span>(mat, <span class="dt">clusters=</span>clust)</a>
+<a class="sourceLine" id="cb24-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb24-3" data-line-number="3">sil.data &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(sil.approx)</a>
+<a class="sourceLine" id="cb24-4" data-line-number="4">sil.data<span class="op">$</span>closest &lt;-<span class="st"> </span><span class="kw">factor</span>(<span class="kw">ifelse</span>(sil.data<span class="op">$</span>width <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, clust, sil.data<span class="op">$</span>other))</a>
+<a class="sourceLine" id="cb24-5" data-line-number="5">sil.data<span class="op">$</span>cluster &lt;-<span class="st"> </span><span class="kw">factor</span>(clust)</a>
+<a class="sourceLine" id="cb24-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb24-7" data-line-number="7"><span class="kw">ggplot</span>(sil.data, <span class="kw">aes</span>(<span class="dt">x=</span>cluster, <span class="dt">y=</span>width, <span class="dt">colour=</span>closest)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb24-8" data-line-number="8"><span class="st">    </span>ggbeeswarm<span class="op">::</span><span class="kw">geom_quasirandom</span>(<span class="dt">method=</span><span class="st">&quot;smiley&quot;</span>)</a></code></pre></div>
+<p><img src="book_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p>We used k=12 cluster centers somewhat arbitrarily. Many strategies exist for selecting an appropriate value for k. For instance, we could use the gap statistic to select an optimal k as shown below. The optimal number of clusters suggested by this method may be less than expected reflecting the issues with clustering, especially k-means clustering, on this type of data. Generally speaking, differences between sub-populations will vary widely in scale with some populations well separated by large copy number changes and other derivative populations differing only by a few changes.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">gaps &lt;-<span class="st"> </span><span class="kw">clusGap</span>(mat.pca<span class="op">$</span>x[, <span class="dv">1</span><span class="op">:</span><span class="dv">50</span>], kmeans, <span class="dt">K.max=</span><span class="dv">30</span>, <span class="dt">B=</span><span class="dv">100</span>)</a></code></pre></div>
+<pre><code>## Clustering k = 1,2,..., K.max (= 30): .. done
+## Bootstrapping, b = 1,2,..., B (= 100)  [one &quot;.&quot; per sample]:
+## .................................................. 50 
+## .................................................. 100</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1">best.k &lt;-<span class="st"> </span><span class="kw">maxSE</span>(gaps<span class="op">$</span>Tab[,<span class="st">&quot;gap&quot;</span>], gaps<span class="op">$</span>Tab[,<span class="st">&quot;SE.sim&quot;</span>])</a>
+<a class="sourceLine" id="cb27-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb27-3" data-line-number="3"><span class="kw">as_tibble</span>(gaps<span class="op">$</span>Tab) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">k=</span><span class="kw">factor</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">30</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb27-4" data-line-number="4"><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb27-5" data-line-number="5"><span class="st">    </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span>k, <span class="dt">y=</span>gap)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb27-6" data-line-number="6"><span class="st">    </span><span class="kw">geom_vline</span>(<span class="dt">xintercept=</span>best.k, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>, <span class="dt">lwd=</span><span class="fl">0.5</span>, <span class="dt">lty=</span><span class="dv">2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb27-7" data-line-number="7"><span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;Number of clusters&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb27-8" data-line-number="8"><span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Gap statistic&quot;</span>)</a></code></pre></div>
+<p><img src="book_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<p>Alternative clustering approaches are possible, see <a href="https://bioconductor.org/books/release/OSCA/clustering.html">this excellent scRNA tutorial</a> for ideas. A graph based clustering approach such as that illustrated below could work better for clustering copy number data as graph based methods will not favour spherical clusters.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="co"># graph based clustering</span></a>
+<a class="sourceLine" id="cb28-2" data-line-number="2"><span class="kw">set.seed</span>(<span class="dv">42</span>)</a>
+<a class="sourceLine" id="cb28-3" data-line-number="3">g &lt;-<span class="st"> </span><span class="kw">buildSNNGraph</span>(<span class="kw">t</span>(mat.pca<span class="op">$</span>x[, <span class="dv">1</span><span class="op">:</span><span class="dv">50</span>]), <span class="dt">k=</span><span class="dv">10</span>, <span class="dt">type=</span><span class="st">&quot;number&quot;</span>)</a>
+<a class="sourceLine" id="cb28-4" data-line-number="4">clust &lt;-<span class="st"> </span>igraph<span class="op">::</span><span class="kw">cluster_walktrap</span>(g)<span class="op">$</span>membership</a>
+<a class="sourceLine" id="cb28-5" data-line-number="5"><span class="kw">table</span>(clust)</a>
+<a class="sourceLine" id="cb28-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb28-7" data-line-number="7"><span class="co"># umap plot</span></a>
+<a class="sourceLine" id="cb28-8" data-line-number="8">mat.umap &lt;-<span class="st"> </span><span class="kw">umap</span>(mat)</a>
+<a class="sourceLine" id="cb28-9" data-line-number="9">mat.umap.tbl &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">x=</span>mat.umap<span class="op">$</span>layout[,<span class="dv">1</span>], <span class="dt">y=</span>mat.umap<span class="op">$</span>layout[,<span class="dv">2</span>], <span class="dt">cluster=</span><span class="kw">factor</span>(clust))</a>
+<a class="sourceLine" id="cb28-10" data-line-number="10"><span class="kw">ggplot</span>(mat.umap.tbl) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span>x, <span class="dt">y=</span>y, <span class="dt">color=</span>cluster))</a>
+<a class="sourceLine" id="cb28-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb28-12" data-line-number="12"><span class="co"># silhouette width evaluation</span></a>
+<a class="sourceLine" id="cb28-13" data-line-number="13">sil.approx &lt;-<span class="st"> </span><span class="kw">approxSilhouette</span>(mat, <span class="dt">clusters=</span>clust)</a>
+<a class="sourceLine" id="cb28-14" data-line-number="14">sil.data &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(sil.approx)</a>
+<a class="sourceLine" id="cb28-15" data-line-number="15">sil.data<span class="op">$</span>closest &lt;-<span class="st"> </span><span class="kw">factor</span>(<span class="kw">ifelse</span>(sil.data<span class="op">$</span>width <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, clust, sil.data<span class="op">$</span>other))</a>
+<a class="sourceLine" id="cb28-16" data-line-number="16">sil.data<span class="op">$</span>cluster &lt;-<span class="st"> </span><span class="kw">factor</span>(clust)</a>
+<a class="sourceLine" id="cb28-17" data-line-number="17"><span class="kw">ggplot</span>(sil.data, <span class="kw">aes</span>(<span class="dt">x=</span>cluster, <span class="dt">y=</span>width, <span class="dt">colour=</span>closest)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb28-18" data-line-number="18"><span class="st">    </span>ggbeeswarm<span class="op">::</span><span class="kw">geom_quasirandom</span>(<span class="dt">method=</span><span class="st">&quot;smiley&quot;</span>)</a></code></pre></div>
+<p>In order to visualize the cluster copy number, lets modify our heatmap plotting function to take in a clustering, order the rows by each cell’s cluster label, and annotate the clusters on the left side of the heatmap.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1">plot_cluster_heatmap &lt;-<span class="st"> </span><span class="cf">function</span>(gr, clust){</a>
+<a class="sourceLine" id="cb29-2" data-line-number="2">  <span class="co">#&#39; plot a heatmap with chromosome boundaries</span></a>
+<a class="sourceLine" id="cb29-3" data-line-number="3">  <span class="co">#&#39; the order of the rows can be customized here</span></a>
+<a class="sourceLine" id="cb29-4" data-line-number="4">  <span class="co">#&#39; its a simple distance based clustering</span></a>
+<a class="sourceLine" id="cb29-5" data-line-number="5">  <span class="co">#&#39;</span></a>
+<a class="sourceLine" id="cb29-6" data-line-number="6">  <span class="co">#&#39; Adapted from code published by Velazquez-Villarreal et al. (2020):</span></a>
+<a class="sourceLine" id="cb29-7" data-line-number="7">  <span class="co">#&#39; https://www.nature.com/articles/s42003-020-1044-8</span></a>
+<a class="sourceLine" id="cb29-8" data-line-number="8">  <span class="co">#&#39;</span></a>
+<a class="sourceLine" id="cb29-9" data-line-number="9">  <span class="co">#&#39; Uses the very useful ComplexHeatmap package:</span></a>
+<a class="sourceLine" id="cb29-10" data-line-number="10">  <span class="co">#&#39; https://jokergoo.github.io/ComplexHeatmap-reference/book/</span></a>
+<a class="sourceLine" id="cb29-11" data-line-number="11">  </a>
+<a class="sourceLine" id="cb29-12" data-line-number="12">  gr &lt;-<span class="st"> </span>GenomeInfoDb<span class="op">::</span><span class="kw">sortSeqlevels</span>(gr)</a>
+<a class="sourceLine" id="cb29-13" data-line-number="13">  gr &lt;-<span class="st"> </span><span class="kw">sort</span>(gr)</a>
+<a class="sourceLine" id="cb29-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb29-15" data-line-number="15">  sorted_clust =<span class="st"> </span><span class="kw">sort</span>(clust)</a>
+<a class="sourceLine" id="cb29-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb29-17" data-line-number="17">  mat &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(GenomicRanges<span class="op">::</span><span class="kw">mcols</span>(gr))</a>
+<a class="sourceLine" id="cb29-18" data-line-number="18">  mat &lt;-<span class="st"> </span><span class="kw">t</span>(mat)</a>
+<a class="sourceLine" id="cb29-19" data-line-number="19">  mat &lt;-<span class="st"> </span>mat[<span class="kw">names</span>(sorted_clust),]</a>
+<a class="sourceLine" id="cb29-20" data-line-number="20">  </a>
+<a class="sourceLine" id="cb29-21" data-line-number="21">  <span class="co"># chromosome boundaries and midpoints for annotation</span></a>
+<a class="sourceLine" id="cb29-22" data-line-number="22">  chr_ids =<span class="st"> </span>GenomicRanges<span class="op">::</span><span class="kw">seqnames</span>(gr)<span class="op">@</span>values</a>
+<a class="sourceLine" id="cb29-23" data-line-number="23">  chr_lengths =<span class="st"> </span>GenomicRanges<span class="op">::</span><span class="kw">seqnames</span>(gr)<span class="op">@</span>lengths</a>
+<a class="sourceLine" id="cb29-24" data-line-number="24">  chr_props =<span class="st"> </span>chr_lengths <span class="op">/</span><span class="st"> </span><span class="kw">length</span>(gr)</a>
+<a class="sourceLine" id="cb29-25" data-line-number="25">  mids =<span class="st"> </span><span class="kw">cumsum</span>(chr_props) <span class="op">-</span><span class="st"> </span>(chr_props <span class="op">/</span><span class="st"> </span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb29-26" data-line-number="26">  boundaries =<span class="st"> </span><span class="kw">cumsum</span>(chr_props)</a>
+<a class="sourceLine" id="cb29-27" data-line-number="27">  boundaries =<span class="st"> </span>boundaries[<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(boundaries)<span class="op">-</span><span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb29-28" data-line-number="28">  abline_x =<span class="st"> </span><span class="kw">rep</span>(boundaries, <span class="dt">each=</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb29-29" data-line-number="29">  abline_y &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="dt">times=</span><span class="kw">length</span>(boundaries))</a>
+<a class="sourceLine" id="cb29-30" data-line-number="30">  abline_ids &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(boundaries),<span class="dt">each=</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb29-31" data-line-number="31"></a>
+<a class="sourceLine" id="cb29-32" data-line-number="32">  <span class="co"># annotation to label chromosomes</span></a>
+<a class="sourceLine" id="cb29-33" data-line-number="33">  ha_column =<span class="st"> </span>ComplexHeatmap<span class="op">::</span><span class="kw">HeatmapAnnotation</span>(<span class="dt">cn =</span> <span class="cf">function</span>(index) {</a>
+<a class="sourceLine" id="cb29-34" data-line-number="34">    <span class="kw">grid.text</span>(chr_ids,<span class="dt">x=</span>mids,<span class="dt">y=</span><span class="dv">1</span>,<span class="dt">just =</span> <span class="kw">c</span>(<span class="st">&quot;center&quot;</span>, <span class="st">&quot;top&quot;</span>),<span class="dt">gp=</span><span class="kw">gpar</span>(<span class="dt">col=</span><span class="st">&quot;#202020&quot;</span>,<span class="dt">fontsize=</span><span class="dv">6</span>))</a>
+<a class="sourceLine" id="cb29-35" data-line-number="35">  })</a>
+<a class="sourceLine" id="cb29-36" data-line-number="36"></a>
+<a class="sourceLine" id="cb29-37" data-line-number="37">  <span class="co"># cluster annotation</span></a>
+<a class="sourceLine" id="cb29-38" data-line-number="38">  cluster_colors =<span class="st"> </span><span class="kw">rainbow</span>(<span class="kw">length</span>(<span class="kw">unique</span>(sorted_clust)))</a>
+<a class="sourceLine" id="cb29-39" data-line-number="39">  <span class="kw">names</span>(cluster_colors) =<span class="st"> </span><span class="kw">unique</span>(sorted_clust)</a>
+<a class="sourceLine" id="cb29-40" data-line-number="40">  ha_row =<span class="st"> </span>ComplexHeatmap<span class="op">::</span><span class="kw">rowAnnotation</span>(<span class="dt">cluster =</span> <span class="kw">factor</span>(sorted_clust), <span class="dt">col =</span> <span class="kw">list</span>(<span class="dt">cluster =</span> cluster_colors))</a>
+<a class="sourceLine" id="cb29-41" data-line-number="41"></a>
+<a class="sourceLine" id="cb29-42" data-line-number="42">  <span class="co"># the main heatmap</span></a>
+<a class="sourceLine" id="cb29-43" data-line-number="43">  cn.colors &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rev</span>(<span class="kw">brewer.pal</span>(<span class="dt">n =</span> <span class="dv">3</span>, <span class="st">&quot;Blues&quot;</span>))[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>], <span class="st">&quot;#CCCCCC&quot;</span>, <span class="kw">tail</span>(<span class="kw">brewer.pal</span>(<span class="dt">n =</span> <span class="dv">8</span>, <span class="st">&quot;OrRd&quot;</span>), <span class="dv">6</span>))</a>
+<a class="sourceLine" id="cb29-44" data-line-number="44">  cn.colors &lt;-<span class="st"> </span><span class="kw">c</span>(cn.colors, cn.colors[<span class="kw">c</span>(<span class="dv">9</span>, <span class="dv">9</span>, <span class="dv">9</span>, <span class="dv">9</span>)])</a>
+<a class="sourceLine" id="cb29-45" data-line-number="45">  <span class="kw">names</span>(cn.colors) &lt;-<span class="st"> </span><span class="dv">0</span><span class="op">:</span><span class="dv">12</span></a>
+<a class="sourceLine" id="cb29-46" data-line-number="46"></a>
+<a class="sourceLine" id="cb29-47" data-line-number="47">  hm =<span class="st"> </span>ComplexHeatmap<span class="op">::</span><span class="kw">Heatmap</span>(</a>
+<a class="sourceLine" id="cb29-48" data-line-number="48">    <span class="dt">matrix =</span> mat,</a>
+<a class="sourceLine" id="cb29-49" data-line-number="49">    <span class="dt">name =</span> <span class="st">&quot;ploidy&quot;</span>,</a>
+<a class="sourceLine" id="cb29-50" data-line-number="50">    <span class="dt">col =</span> cn.colors,</a>
+<a class="sourceLine" id="cb29-51" data-line-number="51">    <span class="dt">cluster_rows =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb29-52" data-line-number="52">    <span class="dt">cluster_columns =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb29-53" data-line-number="53">    <span class="dt">show_row_names =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb29-54" data-line-number="54">    <span class="dt">bottom_annotation =</span> ha_column,</a>
+<a class="sourceLine" id="cb29-55" data-line-number="55">    <span class="dt">left_annotation =</span> ha_row,</a>
+<a class="sourceLine" id="cb29-56" data-line-number="56">    <span class="dt">column_title =</span> <span class="st">&quot;CNV heatmap&quot;</span>,</a>
+<a class="sourceLine" id="cb29-57" data-line-number="57">    <span class="dt">use_raster =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb29-58" data-line-number="58">  )</a>
+<a class="sourceLine" id="cb29-59" data-line-number="59">  </a>
+<a class="sourceLine" id="cb29-60" data-line-number="60">  ComplexHeatmap<span class="op">::</span><span class="kw">draw</span>(hm)</a>
+<a class="sourceLine" id="cb29-61" data-line-number="61"></a>
+<a class="sourceLine" id="cb29-62" data-line-number="62">  ComplexHeatmap<span class="op">::</span><span class="kw">decorate_heatmap_body</span>(<span class="st">&quot;ploidy&quot;</span>, {</a>
+<a class="sourceLine" id="cb29-63" data-line-number="63">    <span class="kw">grid.polyline</span>(</a>
+<a class="sourceLine" id="cb29-64" data-line-number="64">      <span class="dt">x =</span> abline_x,</a>
+<a class="sourceLine" id="cb29-65" data-line-number="65">      <span class="dt">y =</span> abline_y,</a>
+<a class="sourceLine" id="cb29-66" data-line-number="66">      <span class="dt">id =</span> abline_ids,</a>
+<a class="sourceLine" id="cb29-67" data-line-number="67">      <span class="dt">gp =</span> <span class="kw">gpar</span>(<span class="dt">lty =</span> <span class="dv">1</span>, <span class="dt">lwd =</span> <span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb29-68" data-line-number="68">  })</a>
+<a class="sourceLine" id="cb29-69" data-line-number="69">}</a></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">gr &lt;-<span class="st"> </span>cn <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb30-2" data-line-number="2"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(chr, start, end, state, cell_id) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb30-3" data-line-number="3"><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> cell_id, <span class="dt">values_from =</span> state) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb30-4" data-line-number="4"><span class="st">  </span>GenomicRanges<span class="op">::</span><span class="kw">makeGRangesFromDataFrame</span>(<span class="dt">keep.extra.columns=</span><span class="ot">TRUE</span>,<span class="dt">ignore.strand=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb30-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb30-6" data-line-number="6"><span class="kw">plot_cluster_heatmap</span>(gr, clust)</a></code></pre></div>
+<p><img src="book_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<p>We can also merge cell copy number data by cluster to show aggregate cluster level copy number.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1">clust.df &lt;-<span class="st"> </span><span class="kw">enframe</span>(clust.kmeans<span class="op">$</span>cluster) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb31-2" data-line-number="2"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">rename</span>(<span class="dt">cell_id =</span> name, <span class="dt">cluster =</span> value)</a>
+<a class="sourceLine" id="cb31-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb31-4" data-line-number="4">clust.sizes &lt;-<span class="st"> </span><span class="kw">enframe</span>(<span class="kw">table</span>(clust.df<span class="op">$</span>cluster)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb31-5" data-line-number="5"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">rename</span>(<span class="dt">cell_id =</span> name, <span class="dt">size =</span> value) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb31-6" data-line-number="6"><span class="st">  </span><span class="kw">filter</span>(size <span class="op">&gt;=</span><span class="st"> </span><span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb31-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb31-8" data-line-number="8">cn_clust &lt;-<span class="st"> </span>cn <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb31-9" data-line-number="9"><span class="st">  </span><span class="kw">inner_join</span>(clust.df) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb31-10" data-line-number="10"><span class="st">  </span><span class="kw">group_by</span>(chr, start, end, cluster) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb31-11" data-line-number="11"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">copy =</span> <span class="kw">mean</span>(copy), <span class="dt">state =</span> <span class="kw">median</span>(state))</a></code></pre></div>
+<pre><code>## Joining, by = &quot;cell_id&quot;</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;chr&#39;, &#39;start&#39;, &#39;end&#39;. You can override using the `.groups` argument.</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1">cn_clust <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(cluster <span class="op">==</span><span class="st"> </span><span class="dv">7</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">plot_profile</span>()</a></code></pre></div>
+<pre><code>## Warning: Removed 806 rows containing missing values (geom_point).</code></pre>
+<p><img src="book_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1">cn_clust <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(cluster <span class="op">==</span><span class="st"> </span><span class="dv">8</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">plot_profile</span>()</a></code></pre></div>
+<pre><code>## Warning: Removed 959 rows containing missing values (geom_point).</code></pre>
+<p><img src="book_files/figure-html/unnamed-chunk-25-2.png" width="672" /></p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1">cn_clust <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(cluster <span class="op">==</span><span class="st"> </span><span class="dv">9</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">plot_profile</span>()</a></code></pre></div>
+<pre><code>## Warning: Removed 915 rows containing missing values (geom_point).</code></pre>
+<p><img src="book_files/figure-html/unnamed-chunk-25-3.png" width="672" /></p>
+<p>There appears to be a deletion on chromosome 5. Navigate here to see why:
+<a href="http://genome.ucsc.edu/cgi-bin/hgTracks?db=hg19&amp;lastVirtModeType=default&amp;lastVirtModeExtraState=&amp;virtModeType=default&amp;virtMode=0&amp;nonVirtPosition=&amp;position=chr5%3A67500000%2D72000002&amp;hgsid=1117136619_dGtW3EEOeJAIG6cYbSGFZwGwyLzb" class="uri">http://genome.ucsc.edu/cgi-bin/hgTracks?db=hg19&amp;lastVirtModeType=default&amp;lastVirtModeExtraState=&amp;virtModeType=default&amp;virtMode=0&amp;nonVirtPosition=&amp;position=chr5%3A67500000%2D72000002&amp;hgsid=1117136619_dGtW3EEOeJAIG6cYbSGFZwGwyLzb</a></p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1">subset.gr &lt;-<span class="st"> </span>cn_clust <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(copy <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.2</span>, chr <span class="op">!=</span><span class="st"> &quot;Y&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">makeGRangesFromDataFrame</span>()</a>
+<a class="sourceLine" id="cb40-2" data-line-number="2">subset.gr</a></code></pre></div>
+<pre><code>## GRanges object with 18 ranges and 0 metadata columns:
+##        seqnames            ranges strand
+##           &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;
+##    [1]        5 69000001-69500000      *
+##    [2]        5 69000001-69500000      *
+##    [3]        5 69000001-69500000      *
+##    [4]        5 69000001-69500000      *
+##    [5]        5 69000001-69500000      *
+##    ...      ...               ...    ...
+##   [14]        5 69500001-70000000      *
+##   [15]        5 70000001-70500000      *
+##   [16]        5 70000001-70500000      *
+##   [17]        5 70000001-70500000      *
+##   [18]        5 70000001-70500000      *
+##   -------
+##   seqinfo: 24 sequences from an unspecified genome; no seqlengths</code></pre>
+<p>Finally, lets look at the gene content of some of the high level amplifications. First read in a list of known oncogenic amplified genes from the cancer gene census. Read hg19 genes from <code>TxDb.Hsapiens.UCSC.hg19.knownGene</code> and be careful to rename chromosomes, ie “chr9” -&gt; “9”. Add gene symbols from <code>org.Hs.egSYMBOL</code>.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1">cencus.amps &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&#39;./Census_ampThu\ Apr\ 16\ 15_35_36\ 2020.csv&#39;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb42-2" data-line-number="2"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">rename</span>(<span class="dt">symbol =</span> <span class="st">`</span><span class="dt">Gene Symbol</span><span class="st">`</span>)</a></code></pre></div>
+<pre><code>## 
+## ── Column specification ────────────────────────────────────────────────────────────────────────────────────────────────────
+## cols(
+##   `Gene Symbol` = col_character(),
+##   Name = col_character(),
+##   `Entrez GeneId` = col_double(),
+##   `Genome Location` = col_character(),
+##   Tier = col_double(),
+##   `Tumour Types(Somatic)` = col_character(),
+##   Synonyms = col_character()
+## )</code></pre>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1"><span class="co"># read human genes, normalize chromosome names</span></a>
+<a class="sourceLine" id="cb44-2" data-line-number="2">human.genes &lt;-<span class="st"> </span><span class="kw">genes</span>(TxDb.Hsapiens.UCSC.hg19.knownGene)</a></code></pre></div>
+<pre><code>##   403 genes were dropped because they have exons located on both strands of the same reference sequence or on
+##   more than one reference sequence, so cannot be represented by a single genomic range.
+##   Use &#39;single.strand.genes.only=FALSE&#39; to get all the genes in a GRangesList object, or use suppressMessages()
+##   to suppress this message.</code></pre>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1">human.genes &lt;-<span class="st"> </span><span class="kw">renameSeqlevels</span>(human.genes, <span class="kw">sub</span>(<span class="st">&quot;chr&quot;</span>, <span class="st">&quot;&quot;</span>, <span class="kw">seqlevels</span>(human.genes)))</a>
+<a class="sourceLine" id="cb46-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb46-3" data-line-number="3"><span class="co"># add gene symbol from org.Hs.egSYMBOL</span></a>
+<a class="sourceLine" id="cb46-4" data-line-number="4">GenomicRanges<span class="op">::</span><span class="kw">mcols</span>(human.genes) &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">gene_id=</span>human.genes<span class="op">$</span>gene_id) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb46-5" data-line-number="5"><span class="st">  </span><span class="kw">left_join</span>(<span class="kw">tibble</span>(<span class="kw">as.data.frame</span>(org.Hs.egSYMBOL)))</a></code></pre></div>
+<pre><code>## Joining, by = &quot;gene_id&quot;</code></pre>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="co"># subset by cancer gene cencus amps</span></a>
+<a class="sourceLine" id="cb48-2" data-line-number="2">cencus.amps.genes &lt;-<span class="st"> </span>human.genes[(<span class="kw">elementMetadata</span>(human.genes)[,<span class="st">&#39;symbol&#39;</span>] <span class="op">%in%</span><span class="st"> </span>cencus.amps<span class="op">$</span>symbol)]</a></code></pre></div>
+<p>Filter copy number for high level events, then subset by overlap with gene regions. The SOX2 gene is amplified.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1">subset.gr &lt;-<span class="st"> </span>cn_clust <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(copy <span class="op">&gt;</span><span class="st"> </span><span class="dv">10</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">makeGRangesFromDataFrame</span>(<span class="dt">keep.extra.columns=</span><span class="ot">TRUE</span>,<span class="dt">ignore.strand=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb49-2" data-line-number="2">subset.genes &lt;-<span class="st"> </span><span class="kw">subsetByOverlaps</span>(cencus.amps.genes, subset.gr)</a>
+<a class="sourceLine" id="cb49-3" data-line-number="3">subset.genes</a></code></pre></div>
+<pre><code>## GRanges object with 1 range and 2 metadata columns:
+##        seqnames              ranges strand |     gene_id      symbol
+##           &lt;Rle&gt;           &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt; &lt;character&gt;
+##   6657        3 181429712-181432223      + |        6657        SOX2
+##   -------
+##   seqinfo: 93 sequences (1 circular) from hg19 genome</code></pre>
+<p>Overlapping the SOX2 region with all cluster copy number we find that SOX2 is subclonally amplified.</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1">all.gr &lt;-<span class="st"> </span>cn_clust <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">makeGRangesFromDataFrame</span>(<span class="dt">keep.extra.columns=</span><span class="ot">TRUE</span>,<span class="dt">ignore.strand=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb51-2" data-line-number="2"><span class="kw">subsetByOverlaps</span>(all.gr, subset.genes) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb51-3" data-line-number="3"><span class="st">  </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb51-4" data-line-number="4"><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_col</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">factor</span>(cluster), <span class="dt">y=</span>copy))</a></code></pre></div>
+<p><img src="book_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="targeted-snv-sequencing-of-an-all-sample.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["book.pdf", "book.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
