@@ -336,28 +336,7 @@ as_tibble(gaps$Tab) %>% mutate(k=factor(1:30)) %>%
     ylab("Gap statistic")
 ```
 
-Alternative clustering approaches are possible, see [this excellent scRNA tutorial](https://bioconductor.org/books/release/OSCA/clustering.html) for ideas.  A graph based clustering approach such as that illustrated below could work better for clustering copy number data as graph based methods will not favour spherical clusters.
-
-```{r class.source="codeblock", eval=FALSE}
-# graph based clustering
-set.seed(42)
-g <- buildSNNGraph(t(mat.pca$x[, 1:50]), k=10, type="number")
-clust <- igraph::cluster_walktrap(g)$membership
-table(clust)
-
-# umap plot
-mat.umap <- umap(mat)
-mat.umap.tbl <- tibble(x=mat.umap$layout[,1], y=mat.umap$layout[,2], cluster=factor(clust))
-ggplot(mat.umap.tbl) + geom_point(aes(x=x, y=y, color=cluster))
-
-# silhouette width evaluation
-sil.approx <- approxSilhouette(mat, clusters=clust)
-sil.data <- as.data.frame(sil.approx)
-sil.data$closest <- factor(ifelse(sil.data$width > 0, clust, sil.data$other))
-sil.data$cluster <- factor(clust)
-ggplot(sil.data, aes(x=cluster, y=width, colour=closest)) + 
-    ggbeeswarm::geom_quasirandom(method="smiley")
-```
+Alternative clustering approaches are possible, see [this excellent scRNA tutorial](https://bioconductor.org/books/release/OSCA/clustering.html) for ideas.  For instance, a graph based clustering approach could work better for clustering copy number data in some cases, as graph based methods will not favour spherical clusters.
 
 In order to visualize the cluster copy number, lets modify our heatmap plotting function to take in a clustering, order the rows by each cell's cluster label, and annotate the clusters on the left side of the heatmap.
 
