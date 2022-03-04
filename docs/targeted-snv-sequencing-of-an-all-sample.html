@@ -24,16 +24,16 @@
 <meta name="author" content="Andrew McPherson" />
 
 
-<meta name="date" content="2021-06-06" />
+<meta name="date" content="2021-06-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="dlp-of-an-ovarian-cancer-cell-line.html"/>
+<link rel="prev" href="dlp-sequencing-of-an-ovarian-cancer-cell-line.html"/>
 
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/jquery-3.5.1/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -52,6 +52,18 @@
 
 <link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.18/datatables.js"></script>
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet" />
+<script src="libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
+<link href="libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet" />
+<script src="libs/selectize-0.12.0/selectize.min.js"></script>
+<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
 
 
 <style type="text/css">
@@ -134,13 +146,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">Single Cell DNA Analysis Lab</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Lab Overview</a></li>
-<li class="chapter" data-level="2" data-path="dlp-of-an-ovarian-cancer-cell-line.html"><a href="dlp-of-an-ovarian-cancer-cell-line.html"><i class="fa fa-check"></i><b>2</b> DLP of an Ovarian Cancer Cell Line</a><ul>
-<li class="chapter" data-level="2.1" data-path="dlp-of-an-ovarian-cancer-cell-line.html"><a href="dlp-of-an-ovarian-cancer-cell-line.html#introduction"><i class="fa fa-check"></i><b>2.1</b> Introduction</a></li>
-<li class="chapter" data-level="2.2" data-path="dlp-of-an-ovarian-cancer-cell-line.html"><a href="dlp-of-an-ovarian-cancer-cell-line.html#load-the-required-packages"><i class="fa fa-check"></i><b>2.2</b> Load the required packages</a></li>
-<li class="chapter" data-level="2.3" data-path="dlp-of-an-ovarian-cancer-cell-line.html"><a href="dlp-of-an-ovarian-cancer-cell-line.html#read-and-qc-the-copy-number-data"><i class="fa fa-check"></i><b>2.3</b> Read and QC the copy number data</a></li>
-<li class="chapter" data-level="2.4" data-path="dlp-of-an-ovarian-cancer-cell-line.html"><a href="dlp-of-an-ovarian-cancer-cell-line.html#copy-number-exploration"><i class="fa fa-check"></i><b>2.4</b> Copy number exploration</a></li>
-<li class="chapter" data-level="2.5" data-path="dlp-of-an-ovarian-cancer-cell-line.html"><a href="dlp-of-an-ovarian-cancer-cell-line.html#clustering"><i class="fa fa-check"></i><b>2.5</b> Clustering</a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Lab Overview</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#instructions"><i class="fa fa-check"></i><b>1.1</b> Instructions</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="dlp-sequencing-of-an-ovarian-cancer-cell-line.html"><a href="dlp-sequencing-of-an-ovarian-cancer-cell-line.html"><i class="fa fa-check"></i><b>2</b> DLP Sequencing of an Ovarian Cancer Cell Line</a><ul>
+<li class="chapter" data-level="2.1" data-path="dlp-sequencing-of-an-ovarian-cancer-cell-line.html"><a href="dlp-sequencing-of-an-ovarian-cancer-cell-line.html#introduction"><i class="fa fa-check"></i><b>2.1</b> Introduction</a></li>
+<li class="chapter" data-level="2.2" data-path="dlp-sequencing-of-an-ovarian-cancer-cell-line.html"><a href="dlp-sequencing-of-an-ovarian-cancer-cell-line.html#load-the-required-packages"><i class="fa fa-check"></i><b>2.2</b> Load the required packages</a></li>
+<li class="chapter" data-level="2.3" data-path="dlp-sequencing-of-an-ovarian-cancer-cell-line.html"><a href="dlp-sequencing-of-an-ovarian-cancer-cell-line.html#read-and-qc-the-copy-number-data"><i class="fa fa-check"></i><b>2.3</b> Read and QC the copy number data</a></li>
+<li class="chapter" data-level="2.4" data-path="dlp-sequencing-of-an-ovarian-cancer-cell-line.html"><a href="dlp-sequencing-of-an-ovarian-cancer-cell-line.html#copy-number-exploration"><i class="fa fa-check"></i><b>2.4</b> Copy number exploration</a></li>
+<li class="chapter" data-level="2.5" data-path="dlp-sequencing-of-an-ovarian-cancer-cell-line.html"><a href="dlp-sequencing-of-an-ovarian-cancer-cell-line.html#clustering"><i class="fa fa-check"></i><b>2.5</b> Clustering</a></li>
+<li class="chapter" data-level="2.6" data-path="dlp-sequencing-of-an-ovarian-cancer-cell-line.html"><a href="dlp-sequencing-of-an-ovarian-cancer-cell-line.html#subclonal-gene-amplification"><i class="fa fa-check"></i><b>2.6</b> Subclonal Gene Amplification</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="targeted-snv-sequencing-of-an-all-sample.html"><a href="targeted-snv-sequencing-of-an-all-sample.html"><i class="fa fa-check"></i><b>3</b> Targeted SNV Sequencing of an ALL Sample</a><ul>
 <li class="chapter" data-level="3.1" data-path="targeted-snv-sequencing-of-an-all-sample.html"><a href="targeted-snv-sequencing-of-an-all-sample.html#introduction-1"><i class="fa fa-check"></i><b>3.1</b> Introduction</a></li>
@@ -179,17 +194,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="load-the-required-packages-1" class="section level2">
 <h2><span class="header-section-number">3.2</span> Load the required packages</h2>
 <p>This tutorial will rely heavily on the <a href="https://www.tidyverse.org/">tidyverse</a> packages including <a href="https://ggplot2.tidyverse.org/">ggplot2</a>. Heatmap plotting will use <a href="https://jokergoo.github.io/ComplexHeatmap-reference/book/">ComplexHeatmap</a>.</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
-<a class="sourceLine" id="cb52-2" data-line-number="2"><span class="kw">library</span>(ggtree)</a>
-<a class="sourceLine" id="cb52-3" data-line-number="3"><span class="kw">library</span>(phytools)</a>
-<a class="sourceLine" id="cb52-4" data-line-number="4"><span class="kw">library</span>(vcfR)</a>
-<a class="sourceLine" id="cb52-5" data-line-number="5"><span class="kw">library</span>(phylogram)</a></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r codeblock"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb49-2" data-line-number="2"><span class="kw">library</span>(ggtree)</a>
+<a class="sourceLine" id="cb49-3" data-line-number="3"><span class="kw">library</span>(phytools)</a>
+<a class="sourceLine" id="cb49-4" data-line-number="4"><span class="kw">library</span>(vcfR)</a>
+<a class="sourceLine" id="cb49-5" data-line-number="5"><span class="kw">library</span>(phylogram)</a></code></pre></div>
 </div>
 <div id="read-the-data" class="section level2">
 <h2><span class="header-section-number">3.3</span> Read the data</h2>
 <p>The SCIPhI pipeline produced an mpileup. We have further processed this data using <code>samtools</code> and <code>bcftools</code> to produce a multi-sample VCF. The VCF can be read into a dataframe using the <code>vcfR</code> package. We will read the vcf, then extract the total read count and variant read counts (DP and DV in the vcf). We will put the data into ‘tidy’ format and merge.</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1">vcf_filename =<span class="st"> &quot;cell_variants.vcf&quot;</span></a>
-<a class="sourceLine" id="cb53-2" data-line-number="2">vcf &lt;-<span class="st"> </span><span class="kw">read.vcfR</span>(vcf_filename, <span class="dt">verbose =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r codeblock"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1">vcf_filename =<span class="st"> &quot;cell_variants.vcf&quot;</span></a>
+<a class="sourceLine" id="cb50-2" data-line-number="2">vcf &lt;-<span class="st"> </span><span class="kw">read.vcfR</span>(vcf_filename, <span class="dt">verbose =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## Scanning file to determine attributes.
 ## File attributes:
 ##   meta lines: 118
@@ -209,17 +224,17 @@ Meta line 118 read in.
 ## 
 Processed variant: 62
 ## All variants processed</code></pre>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1">total_count &lt;-<span class="st"> </span><span class="kw">extract.gt</span>(vcf, <span class="dt">element =</span> <span class="st">&#39;DP&#39;</span>, <span class="dt">as.numeric =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb55-2" data-line-number="2"><span class="st">  </span><span class="kw">as_tibble</span>(<span class="dt">rownames=</span><span class="st">&#39;position&#39;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb55-3" data-line-number="3"><span class="st">  </span><span class="kw">pivot_longer</span>(<span class="op">!</span>position, <span class="dt">names_to =</span> <span class="st">&quot;cell_id&quot;</span>, <span class="dt">values_to =</span> <span class="st">&quot;total_count&quot;</span>)</a>
-<a class="sourceLine" id="cb55-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb55-5" data-line-number="5">variant_count &lt;-<span class="st"> </span><span class="kw">extract.gt</span>(vcf, <span class="dt">element =</span> <span class="st">&#39;DV&#39;</span>, <span class="dt">as.numeric =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb55-6" data-line-number="6"><span class="st">  </span><span class="kw">as_tibble</span>(<span class="dt">rownames=</span><span class="st">&#39;position&#39;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb55-7" data-line-number="7"><span class="st">  </span><span class="kw">pivot_longer</span>(<span class="op">!</span>position, <span class="dt">names_to =</span> <span class="st">&quot;cell_id&quot;</span>, <span class="dt">values_to =</span> <span class="st">&quot;variant_count&quot;</span>)</a>
-<a class="sourceLine" id="cb55-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb55-9" data-line-number="9">read_counts &lt;-<span class="st"> </span><span class="kw">full_join</span>(total_count, variant_count)</a></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r codeblock"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1">total_count &lt;-<span class="st"> </span><span class="kw">extract.gt</span>(vcf, <span class="dt">element =</span> <span class="st">&#39;DP&#39;</span>, <span class="dt">as.numeric =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb52-2" data-line-number="2"><span class="st">  </span><span class="kw">as_tibble</span>(<span class="dt">rownames=</span><span class="st">&#39;position&#39;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb52-3" data-line-number="3"><span class="st">  </span><span class="kw">pivot_longer</span>(<span class="op">!</span>position, <span class="dt">names_to =</span> <span class="st">&quot;cell_id&quot;</span>, <span class="dt">values_to =</span> <span class="st">&quot;total_count&quot;</span>)</a>
+<a class="sourceLine" id="cb52-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb52-5" data-line-number="5">variant_count &lt;-<span class="st"> </span><span class="kw">extract.gt</span>(vcf, <span class="dt">element =</span> <span class="st">&#39;DV&#39;</span>, <span class="dt">as.numeric =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb52-6" data-line-number="6"><span class="st">  </span><span class="kw">as_tibble</span>(<span class="dt">rownames=</span><span class="st">&#39;position&#39;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb52-7" data-line-number="7"><span class="st">  </span><span class="kw">pivot_longer</span>(<span class="op">!</span>position, <span class="dt">names_to =</span> <span class="st">&quot;cell_id&quot;</span>, <span class="dt">values_to =</span> <span class="st">&quot;variant_count&quot;</span>)</a>
+<a class="sourceLine" id="cb52-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb52-9" data-line-number="9">read_counts &lt;-<span class="st"> </span><span class="kw">full_join</span>(total_count, variant_count)</a></code></pre></div>
 <pre><code>## Joining, by = c(&quot;position&quot;, &quot;cell_id&quot;)</code></pre>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1">knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">head</span>(read_counts), <span class="dt">booktabs =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r codeblock"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1">knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">head</span>(read_counts), <span class="dt">booktabs =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -272,100 +287,100 @@ Processed variant: 62
 <div id="data-qc" class="section level2">
 <h2><span class="header-section-number">3.4</span> Data QC</h2>
 <p>Poor performing cells will have consistently low depth (total read count) across all positions. Plot a boxplot of log transformed total read count, ordering by mean total read count for readability.</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="kw">ggplot</span>(read_counts, <span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">reorder</span>(cell_id, total_count<span class="op">+</span><span class="dv">1</span>, <span class="dt">FUN =</span> median), <span class="dt">y=</span>total_count<span class="op">+</span><span class="dv">1</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb58-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">scale_y_continuous</span>(<span class="dt">trans=</span><span class="st">&#39;log10&#39;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb58-3" data-line-number="3"><span class="st">  </span><span class="kw">scale_x_discrete</span>(<span class="dt">labels =</span> <span class="ot">NULL</span>, <span class="dt">breaks =</span> <span class="ot">NULL</span>) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;&quot;</span>)</a></code></pre></div>
-<p><img src="book_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
-<p>The left side of the plot show several poor quality cells. A plot of mean total read count confirms there are outlier cells. Filter these cells using a threshold of 400 mean total read count.</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1">mean_total_counts &lt;-<span class="st"> </span>read_counts <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb59-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(cell_id) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb59-3" data-line-number="3"><span class="st">  </span><span class="kw">summarise</span>(</a>
-<a class="sourceLine" id="cb59-4" data-line-number="4">    <span class="dt">mean_total_counts =</span> <span class="kw">mean</span>(total_count)</a>
-<a class="sourceLine" id="cb59-5" data-line-number="5">  )</a>
-<a class="sourceLine" id="cb59-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb59-7" data-line-number="7"><span class="kw">ggplot</span>(mean_total_counts) <span class="op">+</span></a>
-<a class="sourceLine" id="cb59-8" data-line-number="8"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">x=</span>mean_total_counts), <span class="dt">bins=</span><span class="dv">30</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r codeblock"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="kw">ggplot</span>(read_counts, <span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">reorder</span>(cell_id, total_count<span class="op">+</span><span class="dv">1</span>, <span class="dt">FUN =</span> median), <span class="dt">y=</span>total_count<span class="op">+</span><span class="dv">1</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb55-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">scale_y_continuous</span>(<span class="dt">trans=</span><span class="st">&#39;log10&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb55-3" data-line-number="3"><span class="st">  </span><span class="kw">scale_x_discrete</span>(<span class="dt">labels =</span> <span class="ot">NULL</span>, <span class="dt">breaks =</span> <span class="ot">NULL</span>) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;&quot;</span>)</a></code></pre></div>
 <p><img src="book_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1">filtered_read_counts &lt;-<span class="st"> </span>read_counts <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb60-2" data-line-number="2"><span class="st">  </span><span class="kw">inner_join</span>(</a>
-<a class="sourceLine" id="cb60-3" data-line-number="3">    mean_total_counts <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb60-4" data-line-number="4"><span class="st">    </span><span class="kw">filter</span>(mean_total_counts <span class="op">&gt;</span><span class="st"> </span><span class="dv">400</span>))</a></code></pre></div>
+<p>The left side of the plot show several poor quality cells. A plot of mean total read count confirms there are outlier cells. Filter these cells using a threshold of 400 mean total read count.</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r codeblock"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1">mean_total_counts &lt;-<span class="st"> </span>read_counts <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb56-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(cell_id) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb56-3" data-line-number="3"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb56-4" data-line-number="4">    <span class="dt">mean_total_counts =</span> <span class="kw">mean</span>(total_count)</a>
+<a class="sourceLine" id="cb56-5" data-line-number="5">  )</a>
+<a class="sourceLine" id="cb56-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb56-7" data-line-number="7"><span class="kw">ggplot</span>(mean_total_counts) <span class="op">+</span></a>
+<a class="sourceLine" id="cb56-8" data-line-number="8"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">x=</span>mean_total_counts), <span class="dt">bins=</span><span class="dv">30</span>)</a></code></pre></div>
+<p><img src="book_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r codeblock"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1">filtered_read_counts &lt;-<span class="st"> </span>read_counts <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb57-2" data-line-number="2"><span class="st">  </span><span class="kw">inner_join</span>(</a>
+<a class="sourceLine" id="cb57-3" data-line-number="3">    mean_total_counts <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb57-4" data-line-number="4"><span class="st">    </span><span class="kw">filter</span>(mean_total_counts <span class="op">&gt;</span><span class="st"> </span><span class="dv">400</span>))</a></code></pre></div>
 <pre><code>## Joining, by = &quot;cell_id&quot;</code></pre>
 <p>Identify poor performing variant positions characterized by low depth across all cells. A caveat to this plot is that low total depth may be caused by copy number change. Most variants appear to perform well in this dataset.</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" data-line-number="1"><span class="kw">ggplot</span>(filtered_read_counts, <span class="kw">aes</span>(<span class="dt">y=</span><span class="kw">reorder</span>(position, total_count<span class="op">+</span><span class="dv">1</span>, <span class="dt">FUN =</span> median), <span class="dt">x=</span>total_count<span class="op">+</span><span class="dv">1</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb62-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">scale_x_continuous</span>(<span class="dt">trans=</span><span class="st">&#39;log10&#39;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;position&quot;</span>)</a></code></pre></div>
-<p><img src="book_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
-<p>Identify consistently low vaf variant positions likely to not exist at all in the cell population.</p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1">filtered_read_counts <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb63-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">vaf =</span> (variant_count) <span class="op">/</span><span class="st"> </span>(total_count)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb63-3" data-line-number="3"><span class="st">  </span><span class="kw">replace_na</span>(<span class="kw">list</span>(<span class="dt">vaf=</span><span class="dv">0</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb63-4" data-line-number="4"><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">y=</span><span class="kw">reorder</span>(position, vaf, <span class="dt">FUN =</span> mean), <span class="dt">x=</span>vaf)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb63-5" data-line-number="5"><span class="st">    </span><span class="kw">geom_boxplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;variant&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r codeblock"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1"><span class="kw">ggplot</span>(filtered_read_counts, <span class="kw">aes</span>(<span class="dt">y=</span><span class="kw">reorder</span>(position, total_count<span class="op">+</span><span class="dv">1</span>, <span class="dt">FUN =</span> median), <span class="dt">x=</span>total_count<span class="op">+</span><span class="dv">1</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb59-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">scale_x_continuous</span>(<span class="dt">trans=</span><span class="st">&#39;log10&#39;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;position&quot;</span>)</a></code></pre></div>
 <p><img src="book_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
+<p>Identify consistently low vaf variant positions likely to not exist at all in the cell population.</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r codeblock"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1">filtered_read_counts <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb60-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">vaf =</span> (variant_count) <span class="op">/</span><span class="st"> </span>(total_count)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb60-3" data-line-number="3"><span class="st">  </span><span class="kw">replace_na</span>(<span class="kw">list</span>(<span class="dt">vaf=</span><span class="dv">0</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb60-4" data-line-number="4"><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">y=</span><span class="kw">reorder</span>(position, vaf, <span class="dt">FUN =</span> mean), <span class="dt">x=</span>vaf)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb60-5" data-line-number="5"><span class="st">    </span><span class="kw">geom_boxplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;variant&quot;</span>)</a></code></pre></div>
+<p><img src="book_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
 </div>
 <div id="heatmap-plots" class="section level2">
 <h2><span class="header-section-number">3.5</span> Heatmap plots</h2>
 <p>Heatmap plots of a matrix of cell by variant data will show how cells cluster into subpopulations, and variants cluster by their shared evolutionary history. Convert the filtered read counts to a matrix of variant allele frequency. Black denotes cells with no data, instances where we failed to sequence reads for a variant in the given cell. Note the block structure due to the clonal populations with shared variants. However, also note that within each block there is a considerable amount of noise with many variants having a lower than expected VAF. This is very likely the results of allelic dropout.</p>
 <p>Note there appears to be a poor quality position at <code>chr11_48347394</code>, in the middle of the heatmap.</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" data-line-number="1">mat &lt;-<span class="st"> </span>filtered_read_counts <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb64-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">vaf =</span> variant_count <span class="op">/</span><span class="st"> </span>total_count) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb64-3" data-line-number="3"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(<span class="kw">c</span>(<span class="st">&quot;position&quot;</span>, <span class="st">&quot;cell_id&quot;</span>, <span class="st">&quot;vaf&quot;</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb64-4" data-line-number="4"><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from=</span>cell_id, <span class="dt">values_from=</span>vaf) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb64-5" data-line-number="5"><span class="st">  </span><span class="kw">column_to_rownames</span>(<span class="st">&quot;position&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb64-6" data-line-number="6"><span class="st">  </span><span class="kw">as.matrix</span>()</a>
-<a class="sourceLine" id="cb64-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb64-8" data-line-number="8">row_hr &lt;-<span class="st"> </span><span class="kw">hclust</span>(<span class="kw">dist</span>(mat), <span class="dt">method =</span> <span class="st">&quot;average&quot;</span>)</a>
-<a class="sourceLine" id="cb64-9" data-line-number="9">row_hr =<span class="st"> </span><span class="kw">as.dendrogram</span>(row_hr)</a>
-<a class="sourceLine" id="cb64-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb64-11" data-line-number="11">column_hr &lt;-<span class="st"> </span><span class="kw">hclust</span>(<span class="kw">dist</span>(<span class="kw">t</span>(mat)), <span class="dt">method =</span> <span class="st">&quot;average&quot;</span>)</a>
-<a class="sourceLine" id="cb64-12" data-line-number="12">column_hr =<span class="st"> </span><span class="kw">as.dendrogram</span>(column_hr)</a>
-<a class="sourceLine" id="cb64-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb64-14" data-line-number="14">ComplexHeatmap<span class="op">::</span><span class="kw">Heatmap</span>(</a>
-<a class="sourceLine" id="cb64-15" data-line-number="15">  mat,</a>
-<a class="sourceLine" id="cb64-16" data-line-number="16">  <span class="dt">name=</span><span class="st">&quot;VAF&quot;</span>,</a>
-<a class="sourceLine" id="cb64-17" data-line-number="17">  <span class="dt">cluster_rows=</span>row_hr,</a>
-<a class="sourceLine" id="cb64-18" data-line-number="18">  <span class="dt">cluster_columns=</span>column_hr,</a>
-<a class="sourceLine" id="cb64-19" data-line-number="19">  <span class="dt">na_col=</span><span class="st">&quot;black&quot;</span>,</a>
-<a class="sourceLine" id="cb64-20" data-line-number="20">  <span class="dt">show_row_names=</span><span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb64-21" data-line-number="21">  <span class="dt">show_column_names=</span><span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb64-22" data-line-number="22">)</a></code></pre></div>
-<p><img src="book_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r codeblock"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1">mat &lt;-<span class="st"> </span>filtered_read_counts <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb61-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">vaf =</span> variant_count <span class="op">/</span><span class="st"> </span>total_count) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb61-3" data-line-number="3"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(<span class="kw">c</span>(<span class="st">&quot;position&quot;</span>, <span class="st">&quot;cell_id&quot;</span>, <span class="st">&quot;vaf&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb61-4" data-line-number="4"><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from=</span>cell_id, <span class="dt">values_from=</span>vaf) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb61-5" data-line-number="5"><span class="st">  </span><span class="kw">column_to_rownames</span>(<span class="st">&quot;position&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb61-6" data-line-number="6"><span class="st">  </span><span class="kw">as.matrix</span>()</a>
+<a class="sourceLine" id="cb61-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb61-8" data-line-number="8">row_hr &lt;-<span class="st"> </span><span class="kw">hclust</span>(<span class="kw">dist</span>(mat), <span class="dt">method =</span> <span class="st">&quot;average&quot;</span>)</a>
+<a class="sourceLine" id="cb61-9" data-line-number="9">row_hr =<span class="st"> </span><span class="kw">as.dendrogram</span>(row_hr)</a>
+<a class="sourceLine" id="cb61-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb61-11" data-line-number="11">column_hr &lt;-<span class="st"> </span><span class="kw">hclust</span>(<span class="kw">dist</span>(<span class="kw">t</span>(mat)), <span class="dt">method =</span> <span class="st">&quot;average&quot;</span>)</a>
+<a class="sourceLine" id="cb61-12" data-line-number="12">column_hr =<span class="st"> </span><span class="kw">as.dendrogram</span>(column_hr)</a>
+<a class="sourceLine" id="cb61-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb61-14" data-line-number="14">ComplexHeatmap<span class="op">::</span><span class="kw">Heatmap</span>(</a>
+<a class="sourceLine" id="cb61-15" data-line-number="15">  mat,</a>
+<a class="sourceLine" id="cb61-16" data-line-number="16">  <span class="dt">name=</span><span class="st">&quot;VAF&quot;</span>,</a>
+<a class="sourceLine" id="cb61-17" data-line-number="17">  <span class="dt">cluster_rows=</span>row_hr,</a>
+<a class="sourceLine" id="cb61-18" data-line-number="18">  <span class="dt">cluster_columns=</span>column_hr,</a>
+<a class="sourceLine" id="cb61-19" data-line-number="19">  <span class="dt">na_col=</span><span class="st">&quot;black&quot;</span>,</a>
+<a class="sourceLine" id="cb61-20" data-line-number="20">  <span class="dt">show_row_names=</span><span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb61-21" data-line-number="21">  <span class="dt">show_column_names=</span><span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb61-22" data-line-number="22">)</a></code></pre></div>
+<p><img src="book_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
 <p>It can be instructive to also plot total read count as this gives an approximate estimate of total copy number. Try to identify the variants in regions of low copy number that are also homozygous (VAF 1) as determined from the plot above.</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1">mat &lt;-<span class="st"> </span>filtered_read_counts <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb65-2" data-line-number="2"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(<span class="kw">c</span>(<span class="st">&quot;position&quot;</span>, <span class="st">&quot;cell_id&quot;</span>, <span class="st">&quot;total_count&quot;</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb65-3" data-line-number="3"><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from=</span>cell_id, <span class="dt">values_from=</span>total_count) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb65-4" data-line-number="4"><span class="st">  </span><span class="kw">column_to_rownames</span>(<span class="st">&quot;position&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb65-5" data-line-number="5"><span class="st">  </span><span class="kw">as.matrix</span>()</a>
-<a class="sourceLine" id="cb65-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb65-7" data-line-number="7">ComplexHeatmap<span class="op">::</span><span class="kw">Heatmap</span>(</a>
-<a class="sourceLine" id="cb65-8" data-line-number="8">  mat,</a>
-<a class="sourceLine" id="cb65-9" data-line-number="9">  <span class="dt">name=</span><span class="st">&quot;Depth&quot;</span>,</a>
-<a class="sourceLine" id="cb65-10" data-line-number="10">  <span class="dt">cluster_rows=</span>row_hr,</a>
-<a class="sourceLine" id="cb65-11" data-line-number="11">  <span class="dt">cluster_columns=</span>column_hr,</a>
-<a class="sourceLine" id="cb65-12" data-line-number="12">  <span class="dt">na_col=</span><span class="st">&quot;black&quot;</span>,</a>
-<a class="sourceLine" id="cb65-13" data-line-number="13">  <span class="dt">show_row_names=</span><span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb65-14" data-line-number="14">  <span class="dt">show_column_names=</span><span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb65-15" data-line-number="15">)</a></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r codeblock"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" data-line-number="1">mat &lt;-<span class="st"> </span>filtered_read_counts <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb62-2" data-line-number="2"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(<span class="kw">c</span>(<span class="st">&quot;position&quot;</span>, <span class="st">&quot;cell_id&quot;</span>, <span class="st">&quot;total_count&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb62-3" data-line-number="3"><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from=</span>cell_id, <span class="dt">values_from=</span>total_count) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb62-4" data-line-number="4"><span class="st">  </span><span class="kw">column_to_rownames</span>(<span class="st">&quot;position&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb62-5" data-line-number="5"><span class="st">  </span><span class="kw">as.matrix</span>()</a>
+<a class="sourceLine" id="cb62-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb62-7" data-line-number="7">ComplexHeatmap<span class="op">::</span><span class="kw">Heatmap</span>(</a>
+<a class="sourceLine" id="cb62-8" data-line-number="8">  mat,</a>
+<a class="sourceLine" id="cb62-9" data-line-number="9">  <span class="dt">name=</span><span class="st">&quot;Depth&quot;</span>,</a>
+<a class="sourceLine" id="cb62-10" data-line-number="10">  <span class="dt">cluster_rows=</span>row_hr,</a>
+<a class="sourceLine" id="cb62-11" data-line-number="11">  <span class="dt">cluster_columns=</span>column_hr,</a>
+<a class="sourceLine" id="cb62-12" data-line-number="12">  <span class="dt">na_col=</span><span class="st">&quot;black&quot;</span>,</a>
+<a class="sourceLine" id="cb62-13" data-line-number="13">  <span class="dt">show_row_names=</span><span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb62-14" data-line-number="14">  <span class="dt">show_column_names=</span><span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb62-15" data-line-number="15">)</a></code></pre></div>
 <pre><code>## The automatically generated colors map from the 1^st and 99^th of the values in the matrix. There are outliers
 ## in the matrix whose patterns might be hidden by this color mapping. You can manually set the color to `col`
 ## argument.
 ## 
 ## Use `suppressMessages()` to turn off this message.</code></pre>
-<p><img src="book_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
+<p><img src="book_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
 </div>
 <div id="sciφ-phylogeny" class="section level2">
 <h2><span class="header-section-number">3.6</span> SCIΦ Phylogeny</h2>
 <p>SCIΦ is a method for jointly calling mutations in individual cells and estimating the phylogeny relating those cells. The method uses MCMC sampling to genotype mutations and predict a tree and is robust to high drop-out and missing data. The input to SCIΦ is an mpileup file produced by <code>samtools</code>. SCIΦ has been run for you on the Patient 3 data. The output os a tree in dot format, a vcf of mutation genotypes per cell and a table of posterior genotype probabilities per cell per mutation.</p>
 <p>Some wrangling was required to convert from dot format to a format that can be read by R (newick). Read in the resulting newick file and plot using ggtree. Note that the tree has no branch length information as this is not part of the SCIΦ model.</p>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1"><span class="co"># Read the tree as a dendrogram object</span></a>
-<a class="sourceLine" id="cb67-2" data-line-number="2">sciphi.tree &lt;-<span class="st"> </span><span class="kw">read.dendrogram</span>(<span class="st">&quot;exp_short_tree.newick&quot;</span>)</a>
-<a class="sourceLine" id="cb67-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb67-4" data-line-number="4"><span class="co"># Show a plot of the tree</span></a>
-<a class="sourceLine" id="cb67-5" data-line-number="5"><span class="kw">ggtree</span>(<span class="kw">read.newick</span>(<span class="st">&quot;exp_short_tree.newick&quot;</span>))</a></code></pre></div>
-<p><img src="book_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r codeblock"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" data-line-number="1"><span class="co"># Read the tree as a dendrogram object</span></a>
+<a class="sourceLine" id="cb64-2" data-line-number="2">sciphi.tree &lt;-<span class="st"> </span><span class="kw">read.dendrogram</span>(<span class="st">&quot;exp_short_tree.newick&quot;</span>)</a>
+<a class="sourceLine" id="cb64-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb64-4" data-line-number="4"><span class="co"># Show a plot of the tree</span></a>
+<a class="sourceLine" id="cb64-5" data-line-number="5"><span class="kw">ggtree</span>(<span class="kw">read.newick</span>(<span class="st">&quot;exp_short_tree.newick&quot;</span>))</a></code></pre></div>
+<p><img src="book_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
 <p>We will plot the predicted tree together with the heatmap. To do so we will have to reorder the columns of the heatmap to coincide with the order of the leaves of the tree. The matrix has columns labeled by cell_id. The tree has nodes labeled by a node label. We will need to create a mapping between these two. A table of node information will help as it contains cell ids for nodes that are leaves. Read in a table of node information, extract a node to cell mapping and use that to create a cell_id ordering that matches the tree.</p>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb68-1" data-line-number="1"><span class="co"># Read the table of node information</span></a>
-<a class="sourceLine" id="cb68-2" data-line-number="2">sciphi.nodes &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;exp_short_nodes.csv&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r codeblock"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1"><span class="co"># Read the table of node information</span></a>
+<a class="sourceLine" id="cb65-2" data-line-number="2">sciphi.nodes &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;exp_short_nodes.csv&quot;</span>)</a></code></pre></div>
 <pre><code>## 
 ## ── Column specification ────────────────────────────────────────────────────────────────────────────────────────────────────
 ## cols(
@@ -377,36 +392,36 @@ Processed variant: 62
 ##   is_leaf = col_logical(),
 ##   cell_id = col_character()
 ## )</code></pre>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb70-1" data-line-number="1"><span class="co"># Create a table mapping &#39;node&#39; to cell_id</span></a>
-<a class="sourceLine" id="cb70-2" data-line-number="2">leaf_cell_nodes &lt;-<span class="st"> </span>sciphi.nodes <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb70-3" data-line-number="3"><span class="st">  </span><span class="kw">filter</span>(is_leaf) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb70-4" data-line-number="4"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(cell_id, node) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb70-5" data-line-number="5"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">node =</span> <span class="kw">as.character</span>(node)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb70-6" data-line-number="6"><span class="st">  </span><span class="kw">column_to_rownames</span>(<span class="st">&quot;node&quot;</span>)</a>
-<a class="sourceLine" id="cb70-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb70-8" data-line-number="8"><span class="co"># Identify the order of nodes in the dendrogram</span></a>
-<a class="sourceLine" id="cb70-9" data-line-number="9">leaf_cell_order =<span class="st"> </span>leaf_cell_nodes[<span class="kw">labels</span>(sciphi.tree), <span class="st">&quot;cell_id&quot;</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r codeblock"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1"><span class="co"># Create a table mapping &#39;node&#39; to cell_id</span></a>
+<a class="sourceLine" id="cb67-2" data-line-number="2">leaf_cell_nodes &lt;-<span class="st"> </span>sciphi.nodes <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb67-3" data-line-number="3"><span class="st">  </span><span class="kw">filter</span>(is_leaf) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb67-4" data-line-number="4"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(cell_id, node) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb67-5" data-line-number="5"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">node =</span> <span class="kw">as.character</span>(node)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb67-6" data-line-number="6"><span class="st">  </span><span class="kw">column_to_rownames</span>(<span class="st">&quot;node&quot;</span>)</a>
+<a class="sourceLine" id="cb67-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb67-8" data-line-number="8"><span class="co"># Identify the order of nodes in the dendrogram</span></a>
+<a class="sourceLine" id="cb67-9" data-line-number="9">leaf_cell_order =<span class="st"> </span>leaf_cell_nodes[<span class="kw">labels</span>(sciphi.tree), <span class="st">&quot;cell_id&quot;</span>]</a></code></pre></div>
 <p>The tree contains all cells, thus we will use the full dataset to construct a matrix for the heatmap. Re-order the columns of the matrix according to the tree, then use the tree dendrogram object in our call to <code>ComplexHeatmap::Heatmap</code>. Look for noteable differences from the hierarchical clustering dendrogram above.</p>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" data-line-number="1"><span class="co"># Re-create the matrix of vaf with all cells and variants</span></a>
-<a class="sourceLine" id="cb71-2" data-line-number="2">mat &lt;-<span class="st"> </span>read_counts <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb71-3" data-line-number="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">vaf =</span> variant_count <span class="op">/</span><span class="st"> </span>total_count) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb71-4" data-line-number="4"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(<span class="kw">c</span>(<span class="st">&quot;position&quot;</span>, <span class="st">&quot;cell_id&quot;</span>, <span class="st">&quot;vaf&quot;</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb71-5" data-line-number="5"><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from=</span>cell_id, <span class="dt">values_from=</span>vaf) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb71-6" data-line-number="6"><span class="st">  </span><span class="kw">column_to_rownames</span>(<span class="st">&quot;position&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb71-7" data-line-number="7"><span class="st">  </span><span class="kw">as.matrix</span>()</a>
-<a class="sourceLine" id="cb71-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb71-9" data-line-number="9"><span class="co"># Reorder the matrix according to the tree</span></a>
-<a class="sourceLine" id="cb71-10" data-line-number="10">mat =<span class="st"> </span>mat[, leaf_cell_order]</a>
-<a class="sourceLine" id="cb71-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb71-12" data-line-number="12">ComplexHeatmap<span class="op">::</span><span class="kw">Heatmap</span>(</a>
-<a class="sourceLine" id="cb71-13" data-line-number="13">  mat,</a>
-<a class="sourceLine" id="cb71-14" data-line-number="14">  <span class="dt">name =</span> <span class="st">&quot;VAF&quot;</span>,</a>
-<a class="sourceLine" id="cb71-15" data-line-number="15">  <span class="dt">cluster_rows =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb71-16" data-line-number="16">  <span class="dt">cluster_columns =</span> sciphi.tree,</a>
-<a class="sourceLine" id="cb71-17" data-line-number="17">  <span class="dt">show_row_names=</span><span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb71-18" data-line-number="18">  <span class="dt">show_column_names=</span><span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb71-19" data-line-number="19">)</a></code></pre></div>
-<p><img src="book_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r codeblock"><code class="sourceCode r"><a class="sourceLine" id="cb68-1" data-line-number="1"><span class="co"># Re-create the matrix of vaf with all cells and variants</span></a>
+<a class="sourceLine" id="cb68-2" data-line-number="2">mat &lt;-<span class="st"> </span>read_counts <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb68-3" data-line-number="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">vaf =</span> variant_count <span class="op">/</span><span class="st"> </span>total_count) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb68-4" data-line-number="4"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(<span class="kw">c</span>(<span class="st">&quot;position&quot;</span>, <span class="st">&quot;cell_id&quot;</span>, <span class="st">&quot;vaf&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb68-5" data-line-number="5"><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from=</span>cell_id, <span class="dt">values_from=</span>vaf) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb68-6" data-line-number="6"><span class="st">  </span><span class="kw">column_to_rownames</span>(<span class="st">&quot;position&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb68-7" data-line-number="7"><span class="st">  </span><span class="kw">as.matrix</span>()</a>
+<a class="sourceLine" id="cb68-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb68-9" data-line-number="9"><span class="co"># Reorder the matrix according to the tree</span></a>
+<a class="sourceLine" id="cb68-10" data-line-number="10">mat =<span class="st"> </span>mat[, leaf_cell_order]</a>
+<a class="sourceLine" id="cb68-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb68-12" data-line-number="12">ComplexHeatmap<span class="op">::</span><span class="kw">Heatmap</span>(</a>
+<a class="sourceLine" id="cb68-13" data-line-number="13">  mat,</a>
+<a class="sourceLine" id="cb68-14" data-line-number="14">  <span class="dt">name =</span> <span class="st">&quot;VAF&quot;</span>,</a>
+<a class="sourceLine" id="cb68-15" data-line-number="15">  <span class="dt">cluster_rows =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb68-16" data-line-number="16">  <span class="dt">cluster_columns =</span> sciphi.tree,</a>
+<a class="sourceLine" id="cb68-17" data-line-number="17">  <span class="dt">show_row_names=</span><span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb68-18" data-line-number="18">  <span class="dt">show_column_names=</span><span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb68-19" data-line-number="19">)</a></code></pre></div>
+<p><img src="book_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
 
 </div>
 </div>
@@ -415,7 +430,7 @@ Processed variant: 62
           </div>
         </div>
       </div>
-<a href="dlp-of-an-ovarian-cancer-cell-line.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="dlp-sequencing-of-an-ovarian-cancer-cell-line.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
     </div>
   </div>

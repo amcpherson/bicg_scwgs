@@ -1,10 +1,12 @@
 lab-overview
-dlp-of-an-ovarian-cancer-cell-line
+instructions
+dlp-sequencing-of-an-ovarian-cancer-cell-line
 introduction
 load-the-required-packages
 read-and-qc-the-copy-number-data
 copy-number-exploration
 clustering
+subclonal-gene-amplification
 targeted-snv-sequencing-of-an-all-sample
 introduction-1
 load-the-required-packages-1
